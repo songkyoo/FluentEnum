@@ -94,7 +94,7 @@ internal static class SourceGenerationHelper
     {
         if (typeSymbol.IsRecord)
         {
-            return typeSymbol.TypeKind is TypeKind.Struct ? "record struct" : "record" ;
+            return typeSymbol.TypeKind is TypeKind.Struct ? "record struct" : "record";
         }
 
         return typeSymbol.TypeKind switch
