@@ -2,19 +2,30 @@
 
 열거형을 더 자연스럽고 읽기 쉬운 형태로 사용할 수 있도록 하는 확장 메서드를 자동 생성하는 C# 소스 제네레이터입니다.
 
+## 빌드하기
+
+다음과 같은 순서로 명령을 수행하여 NuGet 패키지를 생성할 수 있습니다.
+
+```shell
+dotnet build -c Release
+dotnet pack ./FluentEnum/FluentEnum.csproj -c Release
+```
+
+`./FluentEnum/bin/Release/` 폴더에 `nupkg` 확장자를 가지는 패키지가 생성됩니다.
+
 ## 특징
 
-- 열거형에 `Fluent` 어트리뷰트를 선언하면 `Is`, `IsXXX` 확장 메서드를 생성합니다. `value == Foo.Bar`와 같은 코드를 `value.IsBar()`처럼 자연스럽게 작성할 수 있습니다.
+- 열거형에 `Fluent` 어트리뷰트를 적용하면 `Is`, `IsXXX` 확장 메서드를 생성합니다. `value == Foo.Bar`와 같은 코드를 `value.IsBar()`처럼 자연스럽게 작성할 수 있습니다.
 - 열거형이 `Flags` 어트리뷰트를 가지고 있는 경우 추가로 `Has`, `HasXXX` 확장 메서드를 생성합니다. `(flags & Flags.Read) != 0`와 같은 코드를 `flags.HasRead()`처럼 작성할 수 있습니다.
 - 열거형이 중첩된 타입 내부에 있는 경우에도 올바르게 동작하며 중첩된 타입이 제네릭과 제네릭 형식 제약 조건을 가진 경우에도 동작합니다.
 
 ## 제약 사항
 
-확장 메서드의 특성상 `Fluent` 어트리뷰트가 선언된 열거형은 `public` 또는 `internal` 접근 제한자를 가져야 합니다.
+확장 메서드의 특성상 `Fluent` 어트리뷰트가 적용된 열거형은 `public` 또는 `internal` 접근 제한자를 가져야 합니다.
 
 ## 사용법
 
-열거형에 `Fluent` 어트리뷰트를 선언하면 `==` 연산자 역할을 하는 `Is` 확장 메서드와 각 항목별 `IsXXX` 확장 메서드를 생성합니다. 멤버가 없는 열거형은 처리되지 않습니다.
+열거형에 `Fluent` 어트리뷰트를 적용하면 `==` 연산자 역할을 하는 `Is` 확장 메서드와 각 항목별 `IsXXX` 확장 메서드를 생성합니다. 멤버가 없는 열거형은 처리되지 않습니다.
 
 ```csharp
 using Macaron.FluentEnum;
@@ -120,7 +131,7 @@ public static class FooExtensions
 
 ```
 
-다음과 같이 사용할 수 있습니다.
+생성된 코드는 다음과 같이 사용할 수 있습니다.
 
 ```csharp
 var foo = Foo.Bar | Foo.Baz;
