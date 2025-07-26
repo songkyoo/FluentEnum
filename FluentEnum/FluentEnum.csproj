@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <AnalyzerLanguage>cs</AnalyzerLanguage>
+    <AssemblyName>Macaron.FluentEnum</AssemblyName>
     <DevelopmentDependency>true</DevelopmentDependency>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -18,7 +19,7 @@
 
   <PropertyGroup>
     <PackageId>Macaron.FluentEnum</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Gyu Song</Authors>
     <PackageLicenseExpression>Unlicense</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
@@ -26,7 +27,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Include="bin\$(Configuration)\netstandard2.0\FluentEnum.dll" Pack="true" PackagePath="analyzers/dotnet/cs/" />
+    <None Include="bin\$(Configuration)\netstandard2.0\Macaron.FluentEnum.dll" Pack="true" PackagePath="analyzers/dotnet/cs/" />
   </ItemGroup>
 
   <ItemGroup>
