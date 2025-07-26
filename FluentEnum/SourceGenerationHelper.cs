@@ -45,7 +45,7 @@ internal static class SourceGenerationHelper
         nestedTypeNames.Add($"{GetTypeName(typeSymbol)}Extensions");
 
         // begin containingType
-        stringBuilder.AppendLine($"{depthSpacerText}{accessModifier} static class {string.Join("_", nestedTypeNames)}");
+        stringBuilder.AppendLine($"{depthSpacerText}{accessModifier} static partial class {string.Join("_", nestedTypeNames)}");
         stringBuilder.AppendLine($"{depthSpacerText}{{");
 
         // write content
@@ -88,22 +88,6 @@ internal static class SourceGenerationHelper
         stringBuilder.AppendLine();
 
         return stringBuilder;
-    }
-
-    private static string GetTypeKindString(INamedTypeSymbol typeSymbol)
-    {
-        if (typeSymbol.IsRecord)
-        {
-            return typeSymbol.TypeKind is TypeKind.Struct ? "record struct" : "record";
-        }
-
-        return typeSymbol.TypeKind switch
-        {
-            TypeKind.Class => "class",
-            TypeKind.Struct => "struct",
-            TypeKind.Interface => "interface",
-            _ => throw new InvalidOperationException($"Invalid type kind: {typeSymbol.TypeKind}")
-        };
     }
 
     private static string GetHintName(INamedTypeSymbol typeSymbol)
