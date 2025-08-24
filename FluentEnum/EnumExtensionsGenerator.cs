@@ -26,6 +26,12 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             [AttributeUsage(AttributeTargets.Enum)]
             internal class FluentAttribute : Attribute
             {
+                public FluentAttribute(bool generateNegatedMembers = true)
+                {
+                    GenerateNegatedMembers = generateNegatedMembers;
+                }
+
+                public bool GenerateNegatedMembers { get; }
             }
         }
 
@@ -42,6 +48,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
         INamedTypeSymbol Symbol,
         string AccessModifier,
         ImmutableArray<string> Members,
+        bool GenerateNegatedMembers,
         bool HasFlags
     );
     #endregion
@@ -124,6 +131,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
                 Symbol: symbol,
                 AccessModifier: accessModifier,
                 Members: members,
+                GenerateNegatedMembers: (bool)fluentAttribute.ConstructorArguments[0].Value!,
                 HasFlags: hasFlags
             ),
             diagnostics.ToImmutable()
@@ -158,7 +166,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
 
     private static ImmutableArray<string> GenerateExtensionMethodCode(EnumContext enumContext, string indent)
     {
-        var (symbol, _, members, hasFlags) = enumContext;
+        var (symbol, _, members, generateNegatedMembers,hasFlags) = enumContext;
 
         var (
             type,
@@ -166,6 +174,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             genericParameterConstraints
         ) = GetStrings(symbol);
         var escapedSymbolName = GetEscapedKeyword(GetCamelCaseName(symbol.Name));
+        var memberSet = members.ToImmutableHashSet();
 
         var lines = ImmutableArray.CreateBuilder<string>();
 
@@ -179,6 +188,19 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
 
         lines.Add($"{{");
         lines.Add($"{indent}return {escapedSymbolName} == value;");
+        lines.Add($"}}");
+
+        // IsNot
+        lines.Add($"");
+        lines.Add($"public static bool IsNot{genericParameters}(this {type} {escapedSymbolName}, {type} value)");
+
+        foreach (var constraint in genericParameterConstraints)
+        {
+            lines.Add($"{indent}{constraint}");
+        }
+
+        lines.Add($"{{");
+        lines.Add($"{indent}return {escapedSymbolName} != value;");
         lines.Add($"}}");
 
         // IsXXX
@@ -197,6 +219,32 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             lines.Add($"}}");
         }
 
+        // IsNotXXX
+        if (generateNegatedMembers)
+        {
+            foreach (var member in members)
+            {
+                var negatedMember = GetNegatedMemberName(member);
+
+                if (memberSet.Contains(negatedMember))
+                {
+                    continue;
+                }
+
+                lines.Add($"");
+                lines.Add($"public static bool Is{negatedMember}{genericParameters}(this {type} {escapedSymbolName})");
+
+                foreach (var constraint in genericParameterConstraints)
+                {
+                    lines.Add($"{indent}{constraint}");
+                }
+
+                lines.Add($"{{");
+                lines.Add($"{indent}return {escapedSymbolName} != {type}.{member};");
+                lines.Add($"}}");
+            }
+        }
+
         if (hasFlags)
         {
             // Has
@@ -210,6 +258,19 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
 
             lines.Add($"{{");
             lines.Add($"{indent}return ({escapedSymbolName} & value) != 0;");
+            lines.Add($"}}");
+
+            // HasNot
+            lines.Add($"");
+            lines.Add($"public static bool HasNot{genericParameters}(this {type} {escapedSymbolName}, {type} value)");
+
+            foreach (var constraint in genericParameterConstraints)
+            {
+                lines.Add($"{indent}{constraint}");
+            }
+
+            lines.Add($"{{");
+            lines.Add($"{indent}return ({escapedSymbolName} & value) == 0;");
             lines.Add($"}}");
 
             // HasXXX
@@ -227,9 +288,39 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
                 lines.Add($"{indent}return ({escapedSymbolName} & {type}.{member}) != 0;");
                 lines.Add($"}}");
             }
+
+            // HasNotXXX
+            if (generateNegatedMembers)
+            {
+                foreach (var member in members)
+                {
+                    var negatedMember = GetNegatedMemberName(member);
+
+                    if (memberSet.Contains(negatedMember))
+                    {
+                        continue;
+                    }
+
+                    lines.Add($"");
+                    lines.Add($"public static bool HasNot{member}{genericParameters}(this {type} {escapedSymbolName})");
+
+                    foreach (var constraint in genericParameterConstraints)
+                    {
+                        lines.Add($"{indent}{constraint}");
+                    }
+
+                    lines.Add($"{{");
+                    lines.Add($"{indent}return ({escapedSymbolName} & {type}.{member}) == 0;");
+                    lines.Add($"}}");
+                }
+            }
         }
 
         return lines.ToImmutable();
+
+        #region Local Functions
+        static string GetNegatedMemberName(string member) => member.StartsWith("Not") ? member[3..] : $"Not{member}";
+        #endregion
     }
 
     private static (
