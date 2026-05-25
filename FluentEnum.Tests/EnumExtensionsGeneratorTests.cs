@@ -267,42 +267,32 @@ public class EnumExtensionsGeneratorTests
 
                     public static bool Has(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value)
                     {
-                        return (foo & value) != 0;
+                        return (foo & value) == value;
                     }
 
                     public static bool HasNot(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value)
                     {
-                        return (foo & value) == 0;
-                    }
-
-                    public static bool HasNone(this global::Macaron.FluentEnum.Tests.Foo foo)
-                    {
-                        return (foo & global::Macaron.FluentEnum.Tests.Foo.None) != 0;
+                        return (foo & value) != value;
                     }
 
                     public static bool HasBar(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
-                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Bar) != 0;
+                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Bar) == global::Macaron.FluentEnum.Tests.Foo.Bar;
                     }
 
                     public static bool HasBaz(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
-                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Baz) != 0;
-                    }
-
-                    public static bool HasNotNone(this global::Macaron.FluentEnum.Tests.Foo foo)
-                    {
-                        return (foo & global::Macaron.FluentEnum.Tests.Foo.None) == 0;
+                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Baz) == global::Macaron.FluentEnum.Tests.Foo.Baz;
                     }
 
                     public static bool HasNotBar(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
-                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Bar) == 0;
+                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Bar) != global::Macaron.FluentEnum.Tests.Foo.Bar;
                     }
 
                     public static bool HasNotBaz(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
-                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Baz) == 0;
+                        return (foo & global::Macaron.FluentEnum.Tests.Foo.Baz) != global::Macaron.FluentEnum.Tests.Foo.Baz;
                     }
                 }
             }

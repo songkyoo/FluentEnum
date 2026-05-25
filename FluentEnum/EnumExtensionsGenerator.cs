@@ -44,10 +44,12 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
     #endregion
 
     #region Types
+    private readonly record struct EnumMember(string Name, object Value);
+
     private sealed record EnumContext(
         INamedTypeSymbol Symbol,
         string AccessModifier,
-        ImmutableArray<string> Members,
+        ImmutableArray<EnumMember> Members,
         bool GenerateNegatedMembers,
         bool HasFlags
     );
@@ -78,6 +80,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
 
         var semanticModel = generatorSyntaxContext.SemanticModel;
         var symbol = semanticModel.GetDeclaredSymbol(syntax);
+
         if (symbol == null)
         {
             return ((EnumContext?)null, diagnostics.ToImmutable());
@@ -119,8 +122,12 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             .GetMembers()
             .OfType<IFieldSymbol>()
             .Where(fieldSymbol => fieldSymbol.IsStatic && fieldSymbol.HasConstantValue)
-            .Select(fieldSymbol => fieldSymbol.Name)
+            .Select(fieldSymbol => new EnumMember(
+                Name: fieldSymbol.Name,
+                Value: fieldSymbol.ConstantValue!
+            ))
             .ToImmutableArray();
+
         if (members.Length < 1)
         {
             return ((EnumContext?)null, diagnostics.ToImmutable());
@@ -141,8 +148,8 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
         static string? GetAccessModifier(INamedTypeSymbol typeSymbol)
         {
             var result = "public";
-
             var parentTypeSymbol = typeSymbol;
+
             while (parentTypeSymbol != null)
             {
                 switch (parentTypeSymbol.DeclaredAccessibility)
@@ -174,7 +181,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             genericParameterConstraints
         ) = GetStrings(symbol);
         var escapedSymbolName = GetEscapedKeyword(GetCamelCaseName(symbol.Name));
-        var memberSet = members.ToImmutableHashSet();
+        var memberSet = members.Select(x => x.Name).ToImmutableHashSet();
 
         var lines = ImmutableArray.CreateBuilder<string>();
 
@@ -207,7 +214,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
         foreach (var member in members)
         {
             lines.Add($"");
-            lines.Add($"public static bool Is{member}{genericParameters}(this {type} {escapedSymbolName})");
+            lines.Add($"public static bool Is{member.Name}{genericParameters}(this {type} {escapedSymbolName})");
 
             foreach (var constraint in genericParameterConstraints)
             {
@@ -215,7 +222,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             }
 
             lines.Add($"{{");
-            lines.Add($"{indent}return {escapedSymbolName} == {type}.{member};");
+            lines.Add($"{indent}return {escapedSymbolName} == {type}.{member.Name};");
             lines.Add($"}}");
         }
 
@@ -224,7 +231,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
         {
             foreach (var member in members)
             {
-                var negatedMember = GetNegatedMemberName(member);
+                var negatedMember = GetNegatedMemberName(member.Name);
 
                 if (memberSet.Contains(negatedMember))
                 {
@@ -240,7 +247,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
                 }
 
                 lines.Add($"{{");
-                lines.Add($"{indent}return {escapedSymbolName} != {type}.{member};");
+                lines.Add($"{indent}return {escapedSymbolName} != {type}.{member.Name};");
                 lines.Add($"}}");
             }
         }
@@ -257,7 +264,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             }
 
             lines.Add($"{{");
-            lines.Add($"{indent}return ({escapedSymbolName} & value) != 0;");
+            lines.Add($"{indent}return ({escapedSymbolName} & value) == value;");
             lines.Add($"}}");
 
             // HasNot
@@ -270,14 +277,14 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
             }
 
             lines.Add($"{{");
-            lines.Add($"{indent}return ({escapedSymbolName} & value) == 0;");
+            lines.Add($"{indent}return ({escapedSymbolName} & value) != value;");
             lines.Add($"}}");
 
             // HasXXX
-            foreach (var member in members)
+            foreach (var member in members.Where(x => !IsZero(x.Value)))
             {
                 lines.Add($"");
-                lines.Add($"public static bool Has{member}{genericParameters}(this {type} {escapedSymbolName})");
+                lines.Add($"public static bool Has{member.Name}{genericParameters}(this {type} {escapedSymbolName})");
 
                 foreach (var constraint in genericParameterConstraints)
                 {
@@ -285,16 +292,16 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
                 }
 
                 lines.Add($"{{");
-                lines.Add($"{indent}return ({escapedSymbolName} & {type}.{member}) != 0;");
+                lines.Add($"{indent}return ({escapedSymbolName} & {type}.{member.Name}) == {type}.{member.Name};");
                 lines.Add($"}}");
             }
 
             // HasNotXXX
             if (generateNegatedMembers)
             {
-                foreach (var member in members)
+                foreach (var member in members.Where(x => !IsZero(x.Value)))
                 {
-                    var negatedMember = GetNegatedMemberName(member);
+                    var negatedMember = GetNegatedMemberName(member.Name);
 
                     if (memberSet.Contains(negatedMember))
                     {
@@ -302,7 +309,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
                     }
 
                     lines.Add($"");
-                    lines.Add($"public static bool HasNot{member}{genericParameters}(this {type} {escapedSymbolName})");
+                    lines.Add($"public static bool HasNot{member.Name}{genericParameters}(this {type} {escapedSymbolName})");
 
                     foreach (var constraint in genericParameterConstraints)
                     {
@@ -310,7 +317,7 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
                     }
 
                     lines.Add($"{{");
-                    lines.Add($"{indent}return ({escapedSymbolName} & {type}.{member}) == 0;");
+                    lines.Add($"{indent}return ({escapedSymbolName} & {type}.{member.Name}) != {type}.{member.Name};");
                     lines.Add($"}}");
                 }
             }
@@ -320,6 +327,19 @@ public class EnumExtensionsGenerator : IIncrementalGenerator
 
         #region Local Functions
         static string GetNegatedMemberName(string member) => member.StartsWith("Not") ? member[3..] : $"Not{member}";
+
+        static bool IsZero(object value) => value switch
+        {
+            byte typedValue => typedValue == 0,
+            sbyte typedValue => typedValue == 0,
+            short typedValue => typedValue == 0,
+            ushort typedValue => typedValue == 0,
+            int typedValue => typedValue == 0,
+            uint typedValue => typedValue == 0,
+            long typedValue => typedValue == 0,
+            ulong typedValue => typedValue == 0,
+            _ => false,
+        };
         #endregion
     }
 
