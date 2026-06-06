@@ -80,6 +80,58 @@ internal static class SourceGenerationHelper
         #endregion
     }
 
+    public static void AddSourceToPartialClass(
+        SourceProductionContext context,
+        INamedTypeSymbol classSymbol,
+        INamedTypeSymbol targetTypeSymbol,
+        ImmutableArray<string> lines,
+        string indent
+    )
+    {
+        if (lines.IsDefaultOrEmpty)
+        {
+            return;
+        }
+
+        var stringBuilder = CreateStringBuilderWithFileHeader();
+        var hasNamespace = !classSymbol.ContainingNamespace.IsGlobalNamespace;
+
+        if (hasNamespace)
+        {
+            stringBuilder.AppendLine($"namespace {classSymbol.ContainingNamespace.ToDisplayString()}");
+            stringBuilder.AppendLine("{");
+        }
+
+        var depthSpacerText = hasNamespace ? indent : "";
+        var accessModifier = classSymbol.DeclaredAccessibility == Accessibility.Public
+            ? "public"
+            : "internal";
+        var className = NamingHelpers.GetEscapedKeyword(classSymbol.Name);
+
+        stringBuilder.AppendLine($"{depthSpacerText}{accessModifier} static partial class {className}");
+        stringBuilder.AppendLine($"{depthSpacerText}{{");
+
+        depthSpacerText += indent;
+
+        foreach (var line in lines)
+        {
+            stringBuilder.AppendLine($"{(line.Length > 0 ? depthSpacerText : "")}{line}");
+        }
+
+        depthSpacerText = depthSpacerText[..^indent.Length];
+        stringBuilder.AppendLine($"{depthSpacerText}}}");
+
+        if (hasNamespace)
+        {
+            stringBuilder.AppendLine("}");
+        }
+
+        context.AddSource(
+            hintName: GetFluentOfHintName(classSymbol, targetTypeSymbol),
+            sourceText: SourceText.From(stringBuilder.ToString(), Encoding.UTF8)
+        );
+    }
+
     private static StringBuilder CreateStringBuilderWithFileHeader()
     {
         var stringBuilder = new StringBuilder();
@@ -95,10 +147,26 @@ internal static class SourceGenerationHelper
         var assemblyName = typeSymbol.ContainingAssembly != null ? $"{typeSymbol.ContainingAssembly}," : "";
         var qualifiedName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
+        return $"{typeSymbol.Name}_{typeSymbol.Arity}.{GetStableHash($"{assemblyName}, {qualifiedName}"):x8}.g.cs";
+    }
+
+    private static string GetFluentOfHintName(
+        INamedTypeSymbol classSymbol,
+        INamedTypeSymbol targetTypeSymbol
+    )
+    {
+        var className = classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+        var targetTypeName = targetTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+
+        return $"{classSymbol.Name}.{GetStableHash($"{className}, {targetTypeName}"):x8}.FluentOf.g.cs";
+    }
+
+    private static uint GetStableHash(string value)
+    {
         const uint fnvPrime = 16777619;
         const uint offsetBasis = 2166136261;
 
-        var bytes = Encoding.UTF8.GetBytes($"{assemblyName}, {qualifiedName}");
+        var bytes = Encoding.UTF8.GetBytes(value);
         uint hash = offsetBasis;
 
         foreach (var b in bytes)
@@ -107,6 +175,6 @@ internal static class SourceGenerationHelper
             hash *= fnvPrime;
         }
 
-        return $"{typeSymbol.Name}_{typeSymbol.Arity}.{hash:x8}.g.cs";
+        return hash;
     }
 }
