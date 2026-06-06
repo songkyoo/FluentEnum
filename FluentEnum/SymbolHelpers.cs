@@ -43,17 +43,23 @@ public static class SymbolHelpers
 
         if (typeParameterSymbol.HasReferenceTypeConstraint)
         {
-            constraints.Add("class");
+            constraints.Add(
+                typeParameterSymbol.ReferenceTypeConstraintNullableAnnotation == NullableAnnotation.Annotated
+                    ? "class?"
+                    : "class"
+            );
         }
-
-        if (typeParameterSymbol.HasUnmanagedTypeConstraint)
+        else if (typeParameterSymbol.HasUnmanagedTypeConstraint)
         {
             constraints.Add("unmanaged");
         }
-
-        if (typeParameterSymbol.HasValueTypeConstraint)
+        else if (typeParameterSymbol.HasValueTypeConstraint)
         {
             constraints.Add("struct");
+        }
+        else if (typeParameterSymbol.HasNotNullConstraint)
+        {
+            constraints.Add("notnull");
         }
 
         foreach (var constraintType in typeParameterSymbol.ConstraintTypes)
@@ -64,11 +70,6 @@ public static class SymbolHelpers
         if (typeParameterSymbol.HasConstructorConstraint)
         {
             constraints.Add("new()");
-        }
-
-        if (typeParameterSymbol.HasNotNullConstraint)
-        {
-            constraints.Add("not null");
         }
 
         return constraints.Count > 0
