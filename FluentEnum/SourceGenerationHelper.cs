@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
@@ -11,61 +11,7 @@ internal static class SourceGenerationHelper
 
     public static void AddSource(
         SourceProductionContext context,
-        EnumTypeContext enumType,
-        ImmutableArray<GeneratedMethod> methods
-    )
-    {
-        var lines = ExtensionMethodRenderer.Render(methods, Indent);
-
-        if (lines.IsDefaultOrEmpty)
-        {
-            return;
-        }
-
-        var stringBuilder = CreateStringBuilderWithFileHeader();
-
-        // begin namespace
-        var hasNamespace = enumType.Namespace.Length > 0;
-        if (hasNamespace)
-        {
-            stringBuilder.AppendLine($"namespace {enumType.Namespace}");
-            stringBuilder.AppendLine($"{{");
-        }
-
-        var depthSpacerText = hasNamespace ? Indent : "";
-
-        // begin containingType
-        stringBuilder.AppendLine($"{depthSpacerText}{enumType.AccessModifier} static partial class {enumType.ExtensionClassName}");
-        stringBuilder.AppendLine($"{depthSpacerText}{{");
-
-        // write content
-        depthSpacerText += Indent;
-
-        foreach (var line in lines)
-        {
-            stringBuilder.AppendLine($"{(line.Length > 0 ? depthSpacerText : "")}{line}");
-        }
-
-        depthSpacerText = depthSpacerText[..^Indent.Length];
-
-        // end containingType
-        stringBuilder.AppendLine($"{depthSpacerText}}}");
-
-        // end namespace
-        if (hasNamespace)
-        {
-            stringBuilder.AppendLine($"}}");
-        }
-
-        context.AddSource(
-            hintName: enumType.HintName,
-            sourceText: SourceText.From(stringBuilder.ToString(), Encoding.UTF8)
-        );
-    }
-
-    public static void AddSourceToPartialClass(
-        SourceProductionContext context,
-        INamedTypeSymbol classSymbol,
+        ExtensionClassContext extensionClassContext,
         string hintName,
         ImmutableArray<GeneratedMethod> methods
     )
@@ -78,21 +24,19 @@ internal static class SourceGenerationHelper
         }
 
         var stringBuilder = CreateStringBuilderWithFileHeader();
-        var hasNamespace = !classSymbol.ContainingNamespace.IsGlobalNamespace;
+        var hasNamespace = extensionClassContext.Namespace.Length > 0;
 
         if (hasNamespace)
         {
-            stringBuilder.AppendLine($"namespace {classSymbol.ContainingNamespace.ToDisplayString()}");
+            stringBuilder.AppendLine($"namespace {extensionClassContext.Namespace}");
             stringBuilder.AppendLine("{");
         }
 
         var depthSpacerText = hasNamespace ? Indent : "";
-        var accessModifier = classSymbol.DeclaredAccessibility == Accessibility.Public
-            ? "public"
-            : "internal";
-        var className = NamingHelpers.GetEscapedKeyword(classSymbol.Name);
 
-        stringBuilder.AppendLine($"{depthSpacerText}{accessModifier} static partial class {className}");
+        stringBuilder.AppendLine(
+            $"{depthSpacerText}{extensionClassContext.AccessModifier} static partial class {extensionClassContext.ClassName}"
+        );
         stringBuilder.AppendLine($"{depthSpacerText}{{");
 
         depthSpacerText += Indent;

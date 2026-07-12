@@ -3,6 +3,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using static Microsoft.CodeAnalysis.Accessibility;
+
 namespace Macaron.FluentEnum;
 
 internal static class EnumContextFactory
@@ -59,7 +61,7 @@ internal static class EnumContextFactory
         if (!classSymbol.IsStatic
             || classSymbol.Arity > 0
             || classSymbol.ContainingType != null
-            || classSymbol.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal)
+            || classSymbol.DeclaredAccessibility is not (Public or Internal)
             || !syntax.Modifiers.Any(SyntaxKind.PartialKeyword
         )
         )
@@ -73,6 +75,15 @@ internal static class EnumContextFactory
             );
         }
 
+        var extensionClass = new ExtensionClassContext(
+            Namespace: classSymbol.ContainingNamespace.IsGlobalNamespace
+                ? ""
+                : classSymbol.ContainingNamespace.ToDisplayString(),
+            ClassName: NamingHelpers.GetEscapedKeyword(classSymbol.Name),
+            AccessModifier: classSymbol.DeclaredAccessibility == Public
+                ? "public"
+                : "internal"
+        );
         var enumSymbol = GetEnumTypeArgument(
             generatorAttributeSyntaxContext.SemanticModel,
             fluentOfAttribute
@@ -114,7 +125,10 @@ internal static class EnumContextFactory
         {
             case AnalysisResult<EnumContext>.Success success:
             {
-                return new AnalysisResult<FluentOfContext>.Success(new FluentOfContext(classSymbol, success.Context));
+                return new AnalysisResult<FluentOfContext>.Success(new FluentOfContext(
+                    ExtensionClassContext: extensionClass,
+                    EnumContext: success.Context
+                ));
             }
             case AnalysisResult<EnumContext>.Failure failure:
             {
@@ -178,9 +192,9 @@ internal static class EnumContextFactory
         {
             switch (parentTypeSymbol.DeclaredAccessibility)
             {
-                case Accessibility.Public:
+                case Public:
                     break;
-                case Accessibility.Internal:
+                case Internal:
                     result = "internal";
                     break;
                 default:

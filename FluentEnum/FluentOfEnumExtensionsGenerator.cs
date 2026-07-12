@@ -46,7 +46,7 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
             );
         });
 
-        var analysisResultProvider = context
+        var analysisResult = context
             .SyntaxProvider
             .ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: FluentOfAttributeMetadataName,
@@ -57,34 +57,26 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
             )
             .Where(static result => result != null)
             .Select(static (result, _) => result!);
+        var diagnosticProvider = analysisResult
+            .Where(static result => result is AnalysisResult<FluentOfContext>.Failure)
+            .SelectMany(static (result, _) => ((AnalysisResult<FluentOfContext>.Failure)result).Diagnostics);
+        var fluentOfContextProvider = analysisResult
+            .Where(static result => result is AnalysisResult<FluentOfContext>.Success)
+            .Select(static (result, _) => ((AnalysisResult<FluentOfContext>.Success)result).Context)
+            .WithComparer(FluentOfContextComparer.Instance);
 
-        context.RegisterSourceOutput(analysisResultProvider, static (sourceProductionContext, result) =>
+        context.RegisterSourceOutput(diagnosticProvider, static (sourceProductionContext, diagnostic) =>
         {
-            switch (result)
-            {
-                case AnalysisResult<FluentOfContext>.Success { Context: { } context }:
-                {
-                    var (classSymbol, enumContext) = context;
-
-                    SourceGenerationHelper.AddSourceToPartialClass(
-                        context: sourceProductionContext,
-                        classSymbol,
-                        hintName: enumContext.TypeContext.HintName,
-                        methods: ExtensionMethodFactory.Create(enumContext)
-                    );
-
-                    break;
-                }
-                case AnalysisResult<FluentOfContext>.Failure failure:
-                {
-                    foreach (var diagnostic in failure.Diagnostics)
-                    {
-                        sourceProductionContext.ReportDiagnostic(diagnostic);
-                    }
-
-                    break;
-                }
-            }
+            sourceProductionContext.ReportDiagnostic(diagnostic);
+        });
+        context.RegisterSourceOutput(fluentOfContextProvider, static (sourceProductionContext, fluentOfContext) =>
+        {
+            SourceGenerationHelper.AddSource(
+                context: sourceProductionContext,
+                extensionClassContext: fluentOfContext.ExtensionClassContext,
+                hintName: fluentOfContext.EnumContext.TypeContext.HintName,
+                methods: ExtensionMethodFactory.Create(fluentOfContext.EnumContext)
+            );
         });
     }
     #endregion

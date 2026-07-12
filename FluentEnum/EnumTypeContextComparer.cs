@@ -22,9 +22,7 @@ internal sealed class EnumTypeContextComparer : IEqualityComparer<EnumTypeContex
 
         var stringComparer = StringComparer.Ordinal;
 
-        return stringComparer.Equals(x.Namespace, y.Namespace)
-            && stringComparer.Equals(x.ExtensionClassName, y.ExtensionClassName)
-            && stringComparer.Equals(x.AccessModifier, y.AccessModifier)
+        return ExtensionClassContextComparer.Instance.Equals(x.ExtensionClassContext, y.ExtensionClassContext)
             && stringComparer.Equals(x.HintName, y.HintName)
             && stringComparer.Equals(x.ReceiverName, y.ReceiverName)
             && GeneratedEnumTypeComparer.Instance.Equals(x.GeneratedType, y.GeneratedType);
@@ -36,10 +34,8 @@ internal sealed class EnumTypeContextComparer : IEqualityComparer<EnumTypeContex
 
         unchecked
         {
-            var hashCode = stringComparer.GetHashCode(obj.Namespace);
+            var hashCode = ExtensionClassContextComparer.Instance.GetHashCode(obj.ExtensionClassContext);
 
-            hashCode = (hashCode * 397) ^ stringComparer.GetHashCode(obj.ExtensionClassName);
-            hashCode = (hashCode * 397) ^ stringComparer.GetHashCode(obj.AccessModifier);
             hashCode = (hashCode * 397) ^ stringComparer.GetHashCode(obj.HintName);
             hashCode = (hashCode * 397) ^ stringComparer.GetHashCode(obj.ReceiverName);
             hashCode = (hashCode * 397) ^ GeneratedEnumTypeComparer.Instance.GetHashCode(obj.GeneratedType);

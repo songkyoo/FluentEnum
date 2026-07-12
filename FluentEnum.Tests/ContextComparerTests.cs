@@ -43,9 +43,11 @@ public class ContextComparerTests
             GenericParameterConstraints: ImmutableArray<string>.Empty
         );
         var x = new EnumTypeContext(
-            Namespace: "Example",
-            ExtensionClassName: "FooExtensions",
-            AccessModifier: "public",
+            ExtensionClassContext: new ExtensionClassContext(
+                Namespace: "Example",
+                ClassName: "FooExtensions",
+                AccessModifier: "public"
+            ),
             HintName: "Foo_0.00000000.g.cs",
             ReceiverName: "foo",
             GeneratedType: generatedType
@@ -76,9 +78,11 @@ public class ContextComparerTests
     public void EnumContextComparer_Should_CompareMemberValues()
     {
         var typeContext = new EnumTypeContext(
-            Namespace: "Example",
-            ExtensionClassName: "FooExtensions",
-            AccessModifier: "public",
+            ExtensionClassContext: new ExtensionClassContext(
+                Namespace: "Example",
+                ClassName: "FooExtensions",
+                AccessModifier: "public"
+            ),
             HintName: "Foo_0.00000000.g.cs",
             ReceiverName: "foo",
             GeneratedType: new GeneratedEnumType(
@@ -114,6 +118,68 @@ public class ContextComparerTests
             );
             Assert.That(
                 EnumContextComparer.Instance.Equals(x, y with { HasFlags = true }),
+                Is.False
+            );
+        });
+    }
+
+    [Test]
+    public void FluentOfContextComparer_Should_CompareExtensionClassAndEnumValues()
+    {
+        var enumContext = new EnumContext(
+            TypeContext: new EnumTypeContext(
+                ExtensionClassContext: new ExtensionClassContext(
+                    Namespace: "Example",
+                    ClassName: "FooExtensions",
+                    AccessModifier: "public"
+                ),
+                HintName: "Foo_0.00000000.g.cs",
+                ReceiverName: "foo",
+                GeneratedType: new GeneratedEnumType(
+                    Type: "global::Example.Foo",
+                    GenericParameters: "",
+                    GenericParameterConstraints: ImmutableArray<string>.Empty
+                )
+            ),
+            Members: ImmutableArray.Create(new EnumMember("None", 0)),
+            GenerateNegatedMembers: true,
+            HasFlags: false
+        );
+        var x = new FluentOfContext(
+            ExtensionClassContext: new ExtensionClassContext(
+                Namespace: "Example",
+                ClassName: "CustomFooExtensions",
+                AccessModifier: "public"
+            ),
+            EnumContext: enumContext
+        );
+        var y = x with
+        {
+            ExtensionClassContext = x.ExtensionClassContext with { Namespace = "Example" },
+            EnumContext = enumContext with
+            {
+                Members = ImmutableArray.Create(new EnumMember("None", 0)),
+            },
+        };
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(FluentOfContextComparer.Instance.Equals(x, y), Is.True);
+            Assert.That(
+                FluentOfContextComparer.Instance.GetHashCode(x),
+                Is.EqualTo(FluentOfContextComparer.Instance.GetHashCode(y))
+            );
+            Assert.That(
+                FluentOfContextComparer.Instance.Equals(
+                    x,
+                    y with
+                    {
+                        ExtensionClassContext = y.ExtensionClassContext with
+                        {
+                            ClassName = "OtherExtensions",
+                        },
+                    }
+                ),
                 Is.False
             );
         });

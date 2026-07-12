@@ -22,9 +22,11 @@ internal static class EnumTypeContextFactory
         var qualifiedName = symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
         return new EnumTypeContext(
-            Namespace: @namespace,
-            ExtensionClassName: $"{string.Join("_", typeNames)}Extensions",
-            AccessModifier: accessModifier,
+            ExtensionClassContext: new ExtensionClassContext(
+                Namespace: @namespace,
+                ClassName: $"{string.Join("_", typeNames)}Extensions",
+                AccessModifier: accessModifier
+            ),
             HintName: $"{symbol.Name}_{symbol.Arity}.{GetStableHash(qualifiedName):x8}.g.cs",
             ReceiverName: NamingHelpers.GetEscapedKeyword(NamingHelpers.GetCamelCaseName(symbol.Name)),
             GeneratedType: GeneratedEnumTypeFactory.Create(symbol, targetKind)

@@ -1,9 +1,7 @@
 namespace Macaron.FluentEnum;
 
 internal sealed record EnumTypeContext(
-    string Namespace,
-    string ExtensionClassName,
-    string AccessModifier,
+    ExtensionClassContext ExtensionClassContext,
     string HintName,
     string ReceiverName,
     GeneratedEnumType GeneratedType

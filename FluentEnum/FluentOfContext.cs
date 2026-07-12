@@ -1,8 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
-
 namespace Macaron.FluentEnum;
 
 internal sealed record FluentOfContext(
-    INamedTypeSymbol ClassSymbol,
+    ExtensionClassContext ExtensionClassContext,
     EnumContext EnumContext
 );

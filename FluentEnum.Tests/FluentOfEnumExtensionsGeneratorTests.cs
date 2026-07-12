@@ -1,6 +1,12 @@
 ﻿using Microsoft.CodeAnalysis;
 
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
+using System.Collections.Immutable;
+using static System.Text.Encoding;
 using static Macaron.FluentEnum.Tests.Helper;
+using static Microsoft.CodeAnalysis.IncrementalGeneratorOutputKind;
+using static Microsoft.CodeAnalysis.IncrementalStepRunReason;
 
 namespace Macaron.FluentEnum.Tests;
 
@@ -719,5 +725,73 @@ public class FluentOfEnumExtensionsGeneratorTests
             Assert.That(generatedCode, Does.Contain("where U : notnull"));
             Assert.That(diagnostics, Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
         });
+    }
+    [Test]
+    public void Should_ReuseSourceOutput_When_OnlyTriviaChanges()
+    {
+        const string sourceCode =
+            """
+            namespace Macaron.FluentEnum.Tests;
+
+            public enum Foo
+            {
+                None,
+            }
+
+            [FluentOf(typeof(Foo))]
+            public static partial class CustomFooExtensions
+            {
+            }
+            """;
+        var compilation = CreateCompilation(sourceCode);
+        var syntaxTree = compilation.SyntaxTrees.Single();
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [new FluentOfEnumExtensionsGenerator().AsSourceGenerator()],
+            additionalTexts: [],
+            parseOptions: (CSharpParseOptions)syntaxTree.Options,
+            optionsProvider: null,
+            driverOptions: new GeneratorDriverOptions(
+                disabledOutputs: None,
+                trackIncrementalGeneratorSteps: true
+            )
+        );
+
+        driver = driver.RunGenerators(compilation);
+
+        var updatedText = SourceText.From(
+            text: sourceCode.Replace(
+                "public static partial class CustomFooExtensions",
+                "public static partial class CustomFooExtensions // trivia change"
+            ),
+            encoding: UTF8
+        );
+        var updatedSyntaxTree = syntaxTree.WithChangedText(updatedText);
+        var updatedCompilation = compilation.ReplaceSyntaxTree(syntaxTree, updatedSyntaxTree);
+
+        driver = driver.RunGenerators(updatedCompilation);
+
+        var runResult = driver.GetRunResult().Results.Single();
+        var generatedFluentOfSources = runResult
+            .GeneratedSources
+            .Where(static generatedSource => generatedSource.HintName != "FluentOfAttribute.g.cs")
+            .ToImmutableArray();
+        var sourceOutputs = runResult
+            .TrackedOutputSteps
+            .SelectMany(static step => step.Value)
+            .SelectMany(static step => step.Outputs)
+            .ToImmutableArray();
+
+        Assert.That(generatedFluentOfSources, Has.Length.EqualTo(1));
+        Assert.That(
+            generatedFluentOfSources[0].SourceText.ToString(),
+            Does.Contain("static partial class CustomFooExtensions")
+        );
+        Assert.That(sourceOutputs, Is.Not.Empty);
+        Assert.That(
+            sourceOutputs,
+            Has.All.Matches<(object Value, IncrementalStepRunReason Reason)>(static output =>
+                output.Reason == Cached
+            )
+        );
     }
 }

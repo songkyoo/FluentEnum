@@ -70,7 +70,8 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
         {
             SourceGenerationHelper.AddSource(
                 context: sourceProductionContext,
-                enumType: enumContext.TypeContext,
+                extensionClassContext: enumContext.TypeContext.ExtensionClassContext,
+                hintName: enumContext.TypeContext.HintName,
                 methods: ExtensionMethodFactory.Create(enumContext)
             );
         });
