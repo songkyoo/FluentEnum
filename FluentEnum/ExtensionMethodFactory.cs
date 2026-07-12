@@ -6,12 +6,10 @@ internal static class ExtensionMethodFactory
 {
     public static ImmutableArray<GeneratedMethod> Create(EnumContext enumContext)
     {
-        var (symbol, _, members, generateNegatedMembers, hasFlags, targetKind) = enumContext;
-        var generatedType = GeneratedEnumTypeFactory.Create(symbol, targetKind);
+        var (enumType, members, generateNegatedMembers, hasFlags) = enumContext;
+        var generatedType = enumType.GeneratedType;
         var type = generatedType.Type;
-        var escapedSymbolName = NamingHelpers.GetEscapedKeyword(
-            NamingHelpers.GetCamelCaseName(symbol.Name)
-        );
+        var escapedSymbolName = enumType.ReceiverName;
         var memberSet = members
             .Select(static member => member.Name)
             .ToImmutableHashSet();

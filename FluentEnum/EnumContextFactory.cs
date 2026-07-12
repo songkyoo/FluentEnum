@@ -161,12 +161,10 @@ internal static class EnumContextFactory
         }
 
         return new AnalysisResult<EnumContext>.Success(ImmutableArray.Create(new EnumContext(
-            Symbol: symbol,
-            AccessModifier: accessModifier,
+            TypeContext: EnumTypeContextFactory.Create(symbol, accessModifier, targetKind),
             Members: members,
             GenerateNegatedMembers: generateNegatedMembers,
-            HasFlags: hasFlags,
-            TargetKind: targetKind
+            HasFlags: hasFlags
         )));
     }
 

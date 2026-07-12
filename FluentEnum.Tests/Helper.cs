@@ -26,25 +26,7 @@ public static class Helper
 
     public static (ImmutableArray<Diagnostic> diagnostics, string generatedCode) CompileAndGetResults(string sourceCode)
     {
-        var references = AppDomain
-            .CurrentDomain
-            .GetAssemblies()
-            .Where(assembly => !assembly.IsDynamic && !string.IsNullOrWhiteSpace(assembly.Location))
-            .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
-            .Cast<MetadataReference>()
-            .ToImmutableArray();
-
-        var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
-        var compilation = CSharpCompilation.Create(
-            assemblyName: "Macaron.PropertyAccessor.Tests",
-            syntaxTrees: [syntaxTree],
-            references: references,
-            options: new CSharpCompilationOptions(
-                outputKind: OutputKind.DynamicallyLinkedLibrary,
-                nullableContextOptions: NullableContextOptions.Enable
-            )
-        );
-
+        var compilation = CreateCompilation(sourceCode);
         var driver = CSharpGeneratorDriver
             .Create(
                 new FluentEnumExtensionsGenerator(),
@@ -62,16 +44,38 @@ public static class Helper
                 .GetRunResult()
                 .Results
                 .SelectMany(static result => result.GeneratedSources)
-                .Where(static generatedSource => generatedSource.HintName is not
-                    ("FluentAttribute.g.cs" or "FluentOfAttribute.g.cs")
-                )
+                .Where(static generatedSource =>
+                {
+                    return generatedSource.HintName is not ("FluentAttribute.g.cs" or "FluentOfAttribute.g.cs");
+                })
                 .Select(static generatedSource => generatedSource.SourceText.ToString())
         );
-
-        var allDiagnostics = outputCompilation.GetDiagnostics()
+        var diagnostics = outputCompilation.GetDiagnostics()
             .Concat(generatorDiagnostics)
             .ToImmutableArray();
 
-        return (allDiagnostics, generatedCode);
+        return (diagnostics, generatedCode);
+    }
+
+    public static CSharpCompilation CreateCompilation(string sourceCode)
+    {
+        var references = AppDomain
+            .CurrentDomain
+            .GetAssemblies()
+            .Where(assembly => !assembly.IsDynamic && !string.IsNullOrWhiteSpace(assembly.Location))
+            .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
+            .Cast<MetadataReference>()
+            .ToImmutableArray();
+        var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+
+        return CSharpCompilation.Create(
+            assemblyName: "Macaron.PropertyAccessor.Tests",
+            syntaxTrees: [syntaxTree],
+            references: references,
+            options: new CSharpCompilationOptions(
+                outputKind: OutputKind.DynamicallyLinkedLibrary,
+                nullableContextOptions: NullableContextOptions.Enable
+            )
+        );
     }
 }

@@ -11,8 +11,7 @@ internal static class SourceGenerationHelper
 
     public static void AddSource(
         SourceProductionContext context,
-        INamedTypeSymbol typeSymbol,
-        string accessModifier,
+        EnumTypeContext enumType,
         ImmutableArray<GeneratedMethod> methods
     )
     {
@@ -26,29 +25,17 @@ internal static class SourceGenerationHelper
         var stringBuilder = CreateStringBuilderWithFileHeader();
 
         // begin namespace
-        var hasNamespace = !typeSymbol.ContainingNamespace.IsGlobalNamespace;
+        var hasNamespace = enumType.Namespace.Length > 0;
         if (hasNamespace)
         {
-            stringBuilder.AppendLine($"namespace {typeSymbol.ContainingNamespace.ToDisplayString()}");
+            stringBuilder.AppendLine($"namespace {enumType.Namespace}");
             stringBuilder.AppendLine($"{{");
         }
 
         var depthSpacerText = hasNamespace ? Indent : "";
 
-        // get nestedTypes
-        var nestedTypeNames = new List<string>();
-        var parentType = typeSymbol.ContainingType;
-        while (parentType != null)
-        {
-            nestedTypeNames.Add(GetTypeName(parentType));
-            parentType = parentType.ContainingType;
-        }
-
-        nestedTypeNames.Reverse();
-        nestedTypeNames.Add($"{GetTypeName(typeSymbol)}Extensions");
-
         // begin containingType
-        stringBuilder.AppendLine($"{depthSpacerText}{accessModifier} static partial class {string.Join("_", nestedTypeNames)}");
+        stringBuilder.AppendLine($"{depthSpacerText}{enumType.AccessModifier} static partial class {enumType.ExtensionClassName}");
         stringBuilder.AppendLine($"{depthSpacerText}{{");
 
         // write content
@@ -71,22 +58,15 @@ internal static class SourceGenerationHelper
         }
 
         context.AddSource(
-            hintName: GetHintName(typeSymbol),
+            hintName: enumType.HintName,
             sourceText: SourceText.From(stringBuilder.ToString(), Encoding.UTF8)
         );
-
-        #region Local Functions
-        static string GetTypeName(INamedTypeSymbol typeSymbol)
-        {
-            return $"{typeSymbol.Name}{(typeSymbol.Arity > 0 ? $"_{typeSymbol.Arity}" : "")}";
-        }
-        #endregion
     }
 
     public static void AddSourceToPartialClass(
         SourceProductionContext context,
         INamedTypeSymbol classSymbol,
-        INamedTypeSymbol targetTypeSymbol,
+        string hintName,
         ImmutableArray<GeneratedMethod> methods
     )
     {
@@ -131,7 +111,7 @@ internal static class SourceGenerationHelper
         }
 
         context.AddSource(
-            hintName: GetFluentOfHintName(classSymbol, targetTypeSymbol),
+            hintName: hintName,
             sourceText: SourceText.From(stringBuilder.ToString(), Encoding.UTF8)
         );
     }
@@ -144,41 +124,5 @@ internal static class SourceGenerationHelper
         stringBuilder.AppendLine();
 
         return stringBuilder;
-    }
-
-    private static string GetHintName(INamedTypeSymbol typeSymbol)
-    {
-        var assemblyName = typeSymbol.ContainingAssembly != null ? $"{typeSymbol.ContainingAssembly}," : "";
-        var qualifiedName = typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-        return $"{typeSymbol.Name}_{typeSymbol.Arity}.{GetStableHash($"{assemblyName}, {qualifiedName}"):x8}.g.cs";
-    }
-
-    private static string GetFluentOfHintName(
-        INamedTypeSymbol classSymbol,
-        INamedTypeSymbol targetTypeSymbol
-    )
-    {
-        var className = classSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-        var targetTypeName = targetTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-
-        return $"{classSymbol.Name}.{GetStableHash($"{className}, {targetTypeName}"):x8}.FluentOf.g.cs";
-    }
-
-    private static uint GetStableHash(string value)
-    {
-        const uint fnvPrime = 16777619;
-        const uint offsetBasis = 2166136261;
-
-        var bytes = Encoding.UTF8.GetBytes(value);
-        uint hash = offsetBasis;
-
-        foreach (var b in bytes)
-        {
-            hash ^= b;
-            hash *= fnvPrime;
-        }
-
-        return hash;
     }
 }

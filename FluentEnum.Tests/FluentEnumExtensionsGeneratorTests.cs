@@ -1,6 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
 
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Text;
+using System.Collections.Immutable;
+using static System.StringComparison;
+using static System.Text.Encoding;
 using static Macaron.FluentEnum.Tests.Helper;
+using static Microsoft.CodeAnalysis.IncrementalGeneratorOutputKind;
+using static Microsoft.CodeAnalysis.IncrementalStepRunReason;
 
 namespace Macaron.FluentEnum.Tests;
 
@@ -785,5 +792,60 @@ public class FluentEnumExtensionsGeneratorTests
                 Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
             );
         });
+    }
+
+    [Test]
+    public void Should_ReuseAnalysisResult_When_OnlyTriviaChanges()
+    {
+        const string sourceCode =
+            """
+            namespace Macaron.FluentEnum.Tests;
+
+            [Fluent]
+            public enum Foo
+            {
+                None,
+            }
+            """;
+        var compilation = CreateCompilation(sourceCode);
+        var syntaxTree = compilation.SyntaxTrees.Single();
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(
+            generators: [new FluentEnumExtensionsGenerator().AsSourceGenerator()],
+            additionalTexts: [],
+            parseOptions: (CSharpParseOptions)syntaxTree.Options,
+            optionsProvider: null,
+            driverOptions: new GeneratorDriverOptions(
+                disabledOutputs: None,
+                trackIncrementalGeneratorSteps: true
+            )
+        );
+
+        driver = driver.RunGenerators(compilation);
+
+        var updatedText = SourceText.From(
+            text: sourceCode.Replace("None,", "None, // trivia change"),
+            encoding: UTF8
+        );
+        var updatedSyntaxTree = syntaxTree.WithChangedText(updatedText);
+        var updatedCompilation = compilation.ReplaceSyntaxTree(syntaxTree, updatedSyntaxTree);
+
+        driver = driver.RunGenerators(updatedCompilation);
+
+        var analysisOutputs = driver
+            .GetRunResult()
+            .Results
+            .Single()
+            .TrackedSteps
+            .SelectMany(static step => step.Value)
+            .SelectMany(static step => step.Outputs)
+            .Where(static output => output.Value
+                .GetType()
+                .FullName?
+                .StartsWith("Macaron.FluentEnum.AnalysisResult", comparisonType: Ordinal) == true
+            )
+            .ToImmutableArray();
+
+        Assert.That(analysisOutputs, Has.Length.EqualTo(1));
+        Assert.That(analysisOutputs[0].Reason, Is.EqualTo(Unchanged));
     }
 }
