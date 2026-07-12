@@ -9,7 +9,7 @@ internal static class EnumContextFactory
 {
     private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
 
-    public static AnalysisResult<EnumContext> GetEnumContext(
+    public static AnalysisResult<EnumContext>? GetEnumContext(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
@@ -33,7 +33,7 @@ internal static class EnumContextFactory
         );
     }
 
-    public static AnalysisResult<FluentOfContext> GetFluentOfContext(
+    public static AnalysisResult<FluentOfContext>? GetFluentOfContext(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
@@ -44,12 +44,12 @@ internal static class EnumContextFactory
             }
         )
         {
-            return new AnalysisResult<FluentOfContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+            return null;
         }
 
         if (generatorAttributeSyntaxContext.Attributes.Length != 1)
         {
-            return new AnalysisResult<FluentOfContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+            return null;
         }
 
         var fluentOfAttribute = generatorAttributeSyntaxContext.Attributes[0];
@@ -80,7 +80,7 @@ internal static class EnumContextFactory
 
         if (enumSymbol?.TypeKind == TypeKind.Error)
         {
-            return new AnalysisResult<FluentOfContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+            return null;
         }
 
         if (enumSymbol?.OriginalDefinition.TypeKind != TypeKind.Enum)
@@ -105,15 +105,16 @@ internal static class EnumContextFactory
                 : EnumTargetKind.Closed
         );
 
+        if (enumAnalysisResult == null)
+        {
+            return null;
+        }
+
         switch (enumAnalysisResult)
         {
             case AnalysisResult<EnumContext>.Success success:
             {
-                return new AnalysisResult<FluentOfContext>.Success(success
-                    .Contexts
-                    .Select(enumContext => new FluentOfContext(classSymbol, enumContext))
-                    .ToImmutableArray()
-                );
+                return new AnalysisResult<FluentOfContext>.Success(new FluentOfContext(classSymbol, success.Context));
             }
             case AnalysisResult<EnumContext>.Failure failure:
             {
@@ -124,7 +125,7 @@ internal static class EnumContextFactory
         }
     }
 
-    private static AnalysisResult<EnumContext> CreateEnumContext(
+    private static AnalysisResult<EnumContext>? CreateEnumContext(
         INamedTypeSymbol symbol,
         bool generateNegatedMembers,
         Location? diagnosticLocation,
@@ -157,15 +158,15 @@ internal static class EnumContextFactory
 
         if (members.Length < 1)
         {
-            return new AnalysisResult<EnumContext>.Success(ImmutableArray<EnumContext>.Empty);
+            return null;
         }
 
-        return new AnalysisResult<EnumContext>.Success(ImmutableArray.Create(new EnumContext(
+        return new AnalysisResult<EnumContext>.Success(new EnumContext(
             TypeContext: EnumTypeContextFactory.Create(symbol, accessModifier, targetKind),
             Members: members,
             GenerateNegatedMembers: generateNegatedMembers,
             HasFlags: hasFlags
-        )));
+        ));
     }
 
     private static string? GetAccessModifier(INamedTypeSymbol typeSymbol)

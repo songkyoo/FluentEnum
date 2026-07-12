@@ -795,7 +795,7 @@ public class FluentEnumExtensionsGeneratorTests
     }
 
     [Test]
-    public void Should_ReuseAnalysisResult_When_OnlyTriviaChanges()
+    public void Should_ReuseSourceOutput_When_OnlyTriviaChanges()
     {
         const string sourceCode =
             """
@@ -831,21 +831,28 @@ public class FluentEnumExtensionsGeneratorTests
 
         driver = driver.RunGenerators(updatedCompilation);
 
-        var analysisOutputs = driver
-            .GetRunResult()
-            .Results
-            .Single()
-            .TrackedSteps
+        var runResult = driver.GetRunResult().Results.Single();
+        var generatedEnumSources = runResult
+            .GeneratedSources
+            .Where(static generatedSource => generatedSource.HintName != "FluentAttribute.g.cs")
+            .ToImmutableArray();
+        var sourceOutputs = runResult
+            .TrackedOutputSteps
             .SelectMany(static step => step.Value)
             .SelectMany(static step => step.Outputs)
-            .Where(static output => output.Value
-                .GetType()
-                .FullName?
-                .StartsWith("Macaron.FluentEnum.AnalysisResult", comparisonType: Ordinal) == true
-            )
             .ToImmutableArray();
 
-        Assert.That(analysisOutputs, Has.Length.EqualTo(1));
-        Assert.That(analysisOutputs[0].Reason, Is.EqualTo(Unchanged));
+        Assert.That(generatedEnumSources, Has.Length.EqualTo(1));
+        Assert.That(
+            generatedEnumSources[0].SourceText.ToString(),
+            Does.Contain("static partial class FooExtensions")
+        );
+        Assert.That(sourceOutputs, Is.Not.Empty);
+        Assert.That(
+            sourceOutputs,
+            Has.All.Matches<(object Value, IncrementalStepRunReason Reason)>(static output =>
+                output.Reason == Cached
+            )
+        );
     }
 }

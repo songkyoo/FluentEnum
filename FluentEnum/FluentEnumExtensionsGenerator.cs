@@ -43,7 +43,7 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
             );
         });
 
-        var analysisResultProvider = context
+        var analysisResult = context
             .SyntaxProvider
             .ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: FluentAttributeMetadataName,
@@ -52,36 +52,27 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
                     generatorAttributeSyntaxContext
                 )
             )
-            .WithComparer(new AnalysisResultComparer<EnumContext>(EnumContextComparer.Instance));
+            .Where(static result => result is not null)
+            .Select(static (result, _) => result!);
+        var diagnosticProvider = analysisResult
+            .Where(static result => result is AnalysisResult<EnumContext>.Failure)
+            .SelectMany(static (result, _) => ((AnalysisResult<EnumContext>.Failure)result).Diagnostics);
+        var enumContextProvider = analysisResult
+            .Where(static result => result is AnalysisResult<EnumContext>.Success)
+            .Select(static (result, _) => ((AnalysisResult<EnumContext>.Success)result).Context)
+            .WithComparer(EnumContextComparer.Instance);
 
-        context.RegisterSourceOutput(analysisResultProvider, static (sourceProductionContext, result) =>
+        context.RegisterSourceOutput(diagnosticProvider, static (sourceProductionContext, diagnostic) =>
         {
-            switch (result)
-            {
-                case AnalysisResult<EnumContext>.Success success:
-                {
-                    foreach (var enumContext in success.Contexts)
-                    {
-                        SourceGenerationHelper.AddSource(
-                            context: sourceProductionContext,
-                            enumType: enumContext.TypeContext,
-                            methods: ExtensionMethodFactory.Create(enumContext)
-                        );
-
-                    }
-
-                    break;
-                }
-                case AnalysisResult<EnumContext>.Failure failure:
-                {
-                    foreach (var diagnostic in failure.Diagnostics)
-                    {
-                        sourceProductionContext.ReportDiagnostic(diagnostic);
-                    }
-
-                    break;
-                }
-            }
+            sourceProductionContext.ReportDiagnostic(diagnostic);
+        });
+        context.RegisterSourceOutput(enumContextProvider, static (sourceProductionContext, enumContext) =>
+        {
+            SourceGenerationHelper.AddSource(
+                context: sourceProductionContext,
+                enumType: enumContext.TypeContext,
+                methods: ExtensionMethodFactory.Create(enumContext)
+            );
         });
     }
     #endregion

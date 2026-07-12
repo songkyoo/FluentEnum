@@ -54,25 +54,24 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
                 transform: static (generatorAttributeSyntaxContext, _) => EnumContextFactory.GetFluentOfContext(
                     generatorAttributeSyntaxContext
                 )
-            );
+            )
+            .Where(static result => result != null)
+            .Select(static (result, _) => result!);
 
         context.RegisterSourceOutput(analysisResultProvider, static (sourceProductionContext, result) =>
         {
             switch (result)
             {
-                case AnalysisResult<FluentOfContext>.Success success:
+                case AnalysisResult<FluentOfContext>.Success { Context: { } context }:
                 {
-                    foreach (var fluentOfContext in success.Contexts)
-                    {
-                        var (classSymbol, enumContext) = fluentOfContext;
+                    var (classSymbol, enumContext) = context;
 
-                        SourceGenerationHelper.AddSourceToPartialClass(
-                            context: sourceProductionContext,
-                            classSymbol,
-                            hintName: enumContext.TypeContext.HintName,
-                            methods: ExtensionMethodFactory.Create(enumContext)
-                        );
-                    }
+                    SourceGenerationHelper.AddSourceToPartialClass(
+                        context: sourceProductionContext,
+                        classSymbol,
+                        hintName: enumContext.TypeContext.HintName,
+                        methods: ExtensionMethodFactory.Create(enumContext)
+                    );
 
                     break;
                 }
