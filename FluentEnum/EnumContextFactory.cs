@@ -30,7 +30,7 @@ internal static class EnumContextFactory
         );
     }
 
-    public static (FluentOfContext?, ImmutableArray<Diagnostic>) GetFluentOfContext(
+    public static AnalysisResult<FluentOfContext> GetFluentOfContext(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
@@ -41,7 +41,12 @@ internal static class EnumContextFactory
             }
         )
         {
-            return (null, ImmutableArray<Diagnostic>.Empty);
+            return new AnalysisResult<FluentOfContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+        }
+
+        if (generatorAttributeSyntaxContext.Attributes.Length != 1)
+        {
+            return new AnalysisResult<FluentOfContext>.Failure(ImmutableArray<Diagnostic>.Empty);
         }
 
         var fluentOfAttribute = generatorAttributeSyntaxContext.Attributes[0];
@@ -56,8 +61,7 @@ internal static class EnumContextFactory
         )
         )
         {
-            return (
-                null,
+            return new AnalysisResult<FluentOfContext>.Failure(
                 ImmutableArray.Create(Diagnostic.Create(
                     descriptor: Diagnostics.InvalidFluentOfClass,
                     location: attributeLocation,
@@ -71,10 +75,14 @@ internal static class EnumContextFactory
             fluentOfAttribute
         );
 
+        if (enumSymbol?.TypeKind == TypeKind.Error)
+        {
+            return new AnalysisResult<FluentOfContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+        }
+
         if (enumSymbol?.OriginalDefinition.TypeKind != TypeKind.Enum)
         {
-            return (
-                null,
+            return new AnalysisResult<FluentOfContext>.Failure(
                 ImmutableArray.Create(Diagnostic.Create(
                     descriptor: Diagnostics.InvalidFluentOfTarget,
                     location: attributeLocation,
@@ -94,9 +102,16 @@ internal static class EnumContextFactory
                 : EnumTargetKind.Closed
         );
 
-        return enumContext != null
-            ? (new FluentOfContext(classSymbol, enumContext), diagnostics)
-            : (null, diagnostics);
+        if (enumContext != null)
+        {
+            return new AnalysisResult<FluentOfContext>.Success(
+                ImmutableArray.Create(new FluentOfContext(classSymbol, enumContext))
+            );
+        }
+
+        return diagnostics.IsEmpty
+            ? new AnalysisResult<FluentOfContext>.Success(ImmutableArray<FluentOfContext>.Empty)
+            : new AnalysisResult<FluentOfContext>.Failure(diagnostics);
     }
 
     private static (EnumContext?, ImmutableArray<Diagnostic>) CreateEnumContext(
