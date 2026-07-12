@@ -7,14 +7,10 @@ namespace Macaron.FluentEnum;
 
 public static class SymbolHelpers
 {
-    public static bool HasDisplayString(ISymbol? symbol, string displayString)
-    {
-        return symbol?.ToDisplayString() == displayString;
-    }
-
     public static bool HasDuplicatedTypeParameterName(ImmutableArray<INamedTypeSymbol> typeSymbols)
     {
         var seen = new HashSet<string>();
+
         return typeSymbols.SelectMany(symbol => symbol.TypeParameters).Any(typeParam => !seen.Add(typeParam.Name));
     }
 

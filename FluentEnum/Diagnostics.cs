@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Macaron.FluentEnum;
 
-internal static class GeneratorDiagnostics
+internal static class Diagnostics
 {
     public static readonly DiagnosticDescriptor InvalidEnumAccessibility = new(
         id: "MAFE0001",

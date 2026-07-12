@@ -76,7 +76,7 @@ internal static class FluentOfMethodFilter
     )
     {
         diagnostics.Add(Diagnostic.Create(
-            descriptor: GeneratorDiagnostics.ConflictingClassMember,
+            descriptor: Diagnostics.ConflictingClassMember,
             location: existingMember.Locations.FirstOrDefault(),
             messageArgs: [
                 existingMember.Name,

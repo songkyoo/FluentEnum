@@ -7,44 +7,20 @@ namespace Macaron.FluentEnum;
 
 internal static class EnumContextFactory
 {
-    private const string FluentAttributeDisplayString = "Macaron.FluentEnum.FluentAttribute";
-    private const string FluentOfAttributeDisplayString = "Macaron.FluentEnum.FluentOfAttribute";
-    private const string FlagsAttributeDisplayString = "System.FlagsAttribute";
+    internal const string FluentAttributeMetadataName = "Macaron.FluentEnum.FluentAttribute";
+    internal const string FluentOfAttributeMetadataName = "Macaron.FluentEnum.FluentOfAttribute";
+    private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
 
-    public static (EnumContext?, ImmutableArray<Diagnostic>) GetAttributedEnumContext(
-        GeneratorSyntaxContext generatorSyntaxContext
+    public static (EnumContext?, ImmutableArray<Diagnostic>) GetFluentContext(
+        GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
-        if (generatorSyntaxContext.Node is not EnumDeclarationSyntax syntax)
+        if (generatorAttributeSyntaxContext.TargetSymbol is not INamedTypeSymbol symbol)
         {
-            return ((EnumContext?)null, ImmutableArray<Diagnostic>.Empty);
+            return (null, ImmutableArray<Diagnostic>.Empty);
         }
 
-        var semanticModel = generatorSyntaxContext.SemanticModel;
-        var symbol = semanticModel.GetDeclaredSymbol(syntax);
-
-        if (symbol == null)
-        {
-            return ((EnumContext?)null, ImmutableArray<Diagnostic>.Empty);
-        }
-
-        var fluentAttribute = (AttributeData?)null;
-
-        foreach (var attributeData in symbol.GetAttributes())
-        {
-            if (SymbolHelpers.HasDisplayString(
-                attributeData.AttributeClass,
-                FluentAttributeDisplayString
-            ))
-            {
-                fluentAttribute = attributeData;
-            }
-        }
-
-        if (fluentAttribute == null)
-        {
-            return ((EnumContext?)null, ImmutableArray<Diagnostic>.Empty);
-        }
+        var fluentAttribute = generatorAttributeSyntaxContext.Attributes[0];
 
         return CreateEnumContext(
             symbol: symbol,
@@ -55,32 +31,20 @@ internal static class EnumContextFactory
     }
 
     public static (FluentOfContext?, ImmutableArray<Diagnostic>) GetFluentOfContext(
-        GeneratorSyntaxContext generatorSyntaxContext
+        GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
-        if (generatorSyntaxContext.Node is not ClassDeclarationSyntax syntax)
+        if (generatorAttributeSyntaxContext is not
+            {
+                TargetNode: ClassDeclarationSyntax syntax,
+                TargetSymbol: INamedTypeSymbol classSymbol,
+            }
+        )
         {
-            return ((FluentOfContext?)null, ImmutableArray<Diagnostic>.Empty);
+            return (null, ImmutableArray<Diagnostic>.Empty);
         }
 
-        var classSymbol = generatorSyntaxContext.SemanticModel.GetDeclaredSymbol(syntax);
-
-        if (classSymbol == null)
-        {
-            return ((FluentOfContext?)null, ImmutableArray<Diagnostic>.Empty);
-        }
-
-        var fluentOfAttribute = classSymbol
-            .GetAttributes()
-            .FirstOrDefault(attributeData =>
-                SymbolHelpers.HasDisplayString(attributeData.AttributeClass, FluentOfAttributeDisplayString)
-                && IsAttributeOnDeclaration(attributeData, syntax)
-            );
-
-        if (fluentOfAttribute == null)
-        {
-            return ((FluentOfContext?)null, ImmutableArray<Diagnostic>.Empty);
-        }
+        var fluentOfAttribute = generatorAttributeSyntaxContext.Attributes[0];
 
         var attributeLocation = fluentOfAttribute.ApplicationSyntaxReference?.GetSyntax().GetLocation();
 
@@ -88,13 +52,14 @@ internal static class EnumContextFactory
             || classSymbol.Arity > 0
             || classSymbol.ContainingType != null
             || classSymbol.DeclaredAccessibility is not (Accessibility.Public or Accessibility.Internal)
-            || !syntax.Modifiers.Any(SyntaxKind.PartialKeyword)
+            || !syntax.Modifiers.Any(SyntaxKind.PartialKeyword
+        )
         )
         {
             return (
-                (FluentOfContext?)null,
+                null,
                 ImmutableArray.Create(Diagnostic.Create(
-                    descriptor: GeneratorDiagnostics.InvalidFluentOfClass,
+                    descriptor: Diagnostics.InvalidFluentOfClass,
                     location: attributeLocation,
                     messageArgs: [classSymbol.Name]
                 ))
@@ -102,16 +67,16 @@ internal static class EnumContextFactory
         }
 
         var enumSymbol = GetEnumTypeArgument(
-            generatorSyntaxContext.SemanticModel,
+            generatorAttributeSyntaxContext.SemanticModel,
             fluentOfAttribute
         );
 
         if (enumSymbol?.OriginalDefinition.TypeKind != TypeKind.Enum)
         {
             return (
-                (FluentOfContext?)null,
+                null,
                 ImmutableArray.Create(Diagnostic.Create(
-                    descriptor: GeneratorDiagnostics.InvalidFluentOfTarget,
+                    descriptor: Diagnostics.InvalidFluentOfTarget,
                     location: attributeLocation,
                     messageArgs: [classSymbol.Name]
                 ))
@@ -131,7 +96,7 @@ internal static class EnumContextFactory
 
         return enumContext != null
             ? (new FluentOfContext(classSymbol, enumContext), diagnostics)
-            : ((FluentOfContext?)null, diagnostics);
+            : (null, diagnostics);
     }
 
     private static (EnumContext?, ImmutableArray<Diagnostic>) CreateEnumContext(
@@ -147,20 +112,17 @@ internal static class EnumContextFactory
         if (GetAccessModifier(definitionSymbol) is not { } accessModifier)
         {
             diagnostics.Add(Diagnostic.Create(
-                descriptor: GeneratorDiagnostics.InvalidEnumAccessibility,
+                descriptor: Diagnostics.InvalidEnumAccessibility,
                 location: diagnosticLocation,
                 messageArgs: [symbol.Name]
             ));
 
-            return ((EnumContext?)null, diagnostics.ToImmutable());
+            return (null, diagnostics.ToImmutable());
         }
 
         var hasFlags = definitionSymbol
             .GetAttributes()
-            .Any(static attributeData => SymbolHelpers.HasDisplayString(
-                attributeData.AttributeClass,
-                FlagsAttributeDisplayString
-            ));
+            .Any(static attributeData => attributeData.AttributeClass?.ToDisplayString() == FlagsAttributeMetadataName);
         var members = definitionSymbol
             .GetMembers()
             .OfType<IFieldSymbol>()
@@ -173,7 +135,7 @@ internal static class EnumContextFactory
 
         if (members.Length < 1)
         {
-            return ((EnumContext?)null, diagnostics.ToImmutable());
+            return (null, diagnostics.ToImmutable());
         }
 
         return (
@@ -221,9 +183,10 @@ internal static class EnumContextFactory
         }
 
         if (attributeData.ApplicationSyntaxReference?.GetSyntax() is AttributeSyntax
-        {
-            ArgumentList.Arguments: var arguments,
-        })
+            {
+                ArgumentList.Arguments: var arguments,
+            }
+        )
         {
             var typeOfExpression = arguments
                 .Select(static argument => argument.Expression)
@@ -237,22 +200,5 @@ internal static class EnumContextFactory
         }
 
         return null;
-    }
-
-    private static bool IsAttributeOnDeclaration(
-        AttributeData attributeData,
-        ClassDeclarationSyntax declaration
-    )
-    {
-        if (attributeData.ApplicationSyntaxReference?.GetSyntax() is not AttributeSyntax attributeSyntax
-            || attributeSyntax.SyntaxTree != declaration.SyntaxTree
-        )
-        {
-            return false;
-        }
-
-        return declaration
-            .AttributeLists
-            .Any(attributeList => attributeList.Span.Contains(attributeSyntax.Span));
     }
 }
