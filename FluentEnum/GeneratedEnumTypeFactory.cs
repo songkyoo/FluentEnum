@@ -16,7 +16,6 @@ internal static class GeneratedEnumTypeFactory
             return new GeneratedEnumType(
                 Type: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 GenericParameters: "",
-                GenericArity: 0,
                 GenericParameterConstraints: ImmutableArray<string>.Empty
             );
         }
@@ -38,7 +37,6 @@ internal static class GeneratedEnumTypeFactory
             return new GeneratedEnumType(
                 Type: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 GenericParameters: genericParameters.Length > 0 ? $"<{genericParameters}>" : "",
-                GenericArity: typeParameters.Length,
                 GenericParameterConstraints: typeParameters
                     .Select(static symbol => SymbolHelpers.GetTypeParameterConstraintClause(
                         symbol,
@@ -100,7 +98,6 @@ internal static class GeneratedEnumTypeFactory
             GenericParameters: typeParameterIndex > 0
                 ? $"<{string.Join(", ", Enumerable.Range(0, typeParameterIndex).Select(static index => $"T{index}"))}>"
                 : "",
-            GenericArity: typeParameterIndex,
             GenericParameterConstraints: genericParameterConstraints.ToImmutable()
         );
     }

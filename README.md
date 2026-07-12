@@ -4,10 +4,7 @@
 
 ## 빌드하기
 
-다음과 같은 순서로 명령을 수행하여 NuGet 패키지를 생성할 수 있습니다.
-
 ```shell
-dotnet build -c Release
 dotnet pack ./FluentEnum/FluentEnum.csproj -c Release
 ```
 
@@ -22,8 +19,7 @@ dotnet pack ./FluentEnum/FluentEnum.csproj -c Release
 
 ## 제약 사항
 
-- 확장 메서드의 특성상 `Fluent` 어트리뷰트가 적용된 열거형은 `public` 또는 `internal` 접근 제한자를 가져야 합니다.
-- `FluentOf` 어트리뷰트가 적용되는 클래스는 최상위의 비제네릭 `static partial` 클래스여야 합니다.
+- 확장 메서드의 특성상 `Fluent`, `Fluent` 어트리뷰트가 적용된 열거형은 `public` 또는 `internal` 접근 제한자를 가져야 합니다.
 
 ## 사용법
 
@@ -83,9 +79,7 @@ foo.IsBar(); // true
 foo.IsBaz(); // false
 ```
 
-부정 비교 메서드는 기본적으로 함께 생성됩니다. 멤버별 부정 비교 메서드가
-필요하지 않다면 다음과 같이 비활성화할 수 있습니다. `IsNot(value)`와
-`HasNot(value)`는 이 설정과 관계없이 생성됩니다.
+부정 비교 메서드는 기본적으로 함께 생성됩니다. 멤버별 부정 비교 메서드가 필요하지 않다면 다음과 같이 비활성화할 수 있습니다. `IsNot(value)`와 `HasNot(value)`는 이 설정과 관계없이 생성됩니다.
 
 ```csharp
 [Fluent(generateNegatedMembers: false)]
@@ -94,65 +88,6 @@ public enum Foo
     Bar,
 }
 ```
-
-## 확장 클래스 지정하기
-
-확장 메서드를 특정 클래스에 생성하려면 최상위의 비제네릭 `static partial`
-클래스에 `FluentOf` 어트리뷰트를 적용합니다. 대상 열거형에 `Fluent`
-어트리뷰트를 적용할 필요는 없습니다.
-
-```csharp
-using Macaron.FluentEnum;
-
-public enum Foo
-{
-    Bar,
-    Baz,
-}
-
-[FluentOf(typeof(Foo))]
-public static partial class CustomFooExtensions
-{
-}
-```
-
-위 코드에서 생성되는 메서드는 `CustomFooExtensions`의 다른 partial 선언에
-추가됩니다. 클래스에 생성될 메서드와 동일한 확장 메서드가 이미 있으면 해당
-메서드는 생성하지 않으므로 일부 동작을 직접 작성할 수도 있습니다.
-
-```csharp
-[FluentOf(typeof(Foo))]
-public static partial class CustomFooExtensions
-{
-    public static bool IsBar(this Foo foo)
-    {
-        return foo is Foo.Bar or Foo.Baz;
-    }
-}
-```
-
-같은 C# 시그니처를 사용하지만 반환형, 접근성, 제네릭 제약 조건 등의 계약이
-다르거나 같은 이름의 필드나 프로퍼티가 있어 메서드를 생성할 수 없다면
-`MAFE0004` 진단을 출력합니다. 다른 시그니처의 정상적인 오버로드는 허용됩니다.
-
-중첩된 제네릭 타입의 열거형은 완전히 열린 타입 또는 완전히 닫힌 타입으로
-지정할 수 있습니다.
-
-```csharp
-[FluentOf(typeof(Container<>.Nested<>.Foo))]
-public static partial class OpenFooExtensions
-{
-}
-
-[FluentOf(typeof(Container<string>.Nested<int>.Foo))]
-public static partial class ClosedFooExtensions
-{
-}
-```
-
-열린 타입은 모든 형식 인수에 사용할 수 있는 제네릭 확장 메서드를 생성하고,
-닫힌 타입은 지정된 형식 인수에만 사용할 수 있는 비제네릭 확장 메서드를
-생성합니다.
 
 `Flags` 어트리뷰트가 있는 경우 추가로 `Has` 확장 메서드를 생성합니다.
 
@@ -209,4 +144,41 @@ foo.Has(Foo.Bar); // true
 foo.Has(Foo.Bar | Foo.Baz); // false
 foo.HasBar(); // true
 foo.HasBaz(); // false
+```
+
+## 확장 클래스 지정하기
+
+확장 메서드를 특정 클래스에 생성하려면 최상위의 비제네릭 `static partial` 클래스에 `FluentOf` 어트리뷰트를 적용합니다.
+
+```csharp
+using Macaron.FluentEnum;
+
+public enum Foo
+{
+    Bar,
+    Baz,
+}
+
+[FluentOf(typeof(Foo))]
+public static partial class CustomFooExtensions
+{
+}
+```
+
+위 코드에서 생성되는 메서드는 `CustomFooExtensions`의 다른 partial 선언에 추가됩니다. 생성기는 클래스의 기존 멤버와 충돌하는지 별도로 검사하지 않습니다.
+
+같은 C# 시그니처의 메서드나 같은 이름의 다른 멤버가 이미 있으면 생성된 코드와 함께 C# 컴파일러 진단이 발생합니다. 다른 시그니처의 정상적인 오버로드는 허용됩니다.
+
+중첩된 제네릭 타입의 열거형은 완전히 열린 타입 또는 완전히 닫힌 타입으로 지정할 수 있습니다.
+
+```csharp
+[FluentOf(typeof(Container<>.Nested<>.Foo))]
+public static partial class OpenFooExtensions
+{
+}
+
+[FluentOf(typeof(Container<string>.Nested<int>.Foo))]
+public static partial class ClosedFooExtensions
+{
+}
 ```

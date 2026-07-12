@@ -85,22 +85,12 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
     )
     {
         var (classSymbol, enumContext) = fluentOfContext;
-        var (methods, memberDiagnostics) = FluentOfMethodFilter.Filter(
-            classSymbol,
-            enumContext,
-            methods: ExtensionMethodFactory.Create(enumContext)
-        );
-
-        foreach (var diagnostic in memberDiagnostics)
-        {
-            sourceProductionContext.ReportDiagnostic(diagnostic);
-        }
 
         SourceGenerationHelper.AddSourceToPartialClass(
             context: sourceProductionContext,
             classSymbol,
             targetTypeSymbol: enumContext.Symbol,
-            methods
+            methods: ExtensionMethodFactory.Create(enumContext)
         );
     }
 }

@@ -62,7 +62,7 @@ public class FluentOfEnumExtensionsGeneratorTests
     }
 
     [Test]
-    public void Should_NotGenerateEquivalentMethod_When_FluentOfClassAlreadyContainsMethod()
+    public void Should_ReportCompilerDiagnostic_When_FluentOfClassAlreadyContainsMethod()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
             """
@@ -86,8 +86,8 @@ public class FluentOfEnumExtensionsGeneratorTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(generatedCode, Does.Not.Contain("public static bool IsBar("));
-            Assert.That(diagnostics, Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(generatedCode, Does.Contain("public static bool IsBar("));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0111"));
         });
     }
 
@@ -117,12 +117,15 @@ public class FluentOfEnumExtensionsGeneratorTests
         Assert.Multiple(() =>
         {
             Assert.That(generatedCode, Does.Contain("public static bool IsBar(this global::Macaron.FluentEnum.Tests.Foo foo)"));
-            Assert.That(diagnostics, Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(
+                diagnostics,
+                Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
+            );
         });
     }
 
     [Test]
-    public void Should_ReportDiagnostic_When_ClassMemberConflictsWithGeneratedMethod()
+    public void Should_ReportCompilerDiagnostic_When_ClassMemberConflictsWithGeneratedMethod()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
             """
@@ -143,13 +146,13 @@ public class FluentOfEnumExtensionsGeneratorTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(generatedCode, Does.Not.Contain("public static bool IsBar("));
-            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(generatedCode, Does.Contain("public static bool IsBar("));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0102"));
         });
     }
 
     [Test]
-    public void Should_ReportDiagnostic_When_MethodContractConflictsWithGeneratedMethod()
+    public void Should_ReportCompilerDiagnostic_When_MethodContractConflictsWithGeneratedMethod()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
             """
@@ -173,8 +176,8 @@ public class FluentOfEnumExtensionsGeneratorTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(generatedCode, Does.Not.Contain("public static bool IsBar("));
-            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(generatedCode, Does.Contain("public static bool IsBar("));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0111"));
         });
     }
 
@@ -260,7 +263,7 @@ public class FluentOfEnumExtensionsGeneratorTests
     }
 
     [Test]
-    public void Should_NotGenerateEquivalentGenericMethod_When_TypeParameterNamesDiffer()
+    public void Should_ReportCompilerDiagnostic_When_EquivalentGenericMethodUsesDifferentTypeParameterNames()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
             """
@@ -296,8 +299,8 @@ public class FluentOfEnumExtensionsGeneratorTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(generatedCode, Does.Not.Contain("public static bool IsNone<"));
-            Assert.That(diagnostics, Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(generatedCode, Does.Contain("public static bool IsNone<"));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0111"));
         });
     }
 
@@ -553,7 +556,7 @@ public class FluentOfEnumExtensionsGeneratorTests
     }
 
     [Test]
-    public void Should_ReportDiagnostic_When_GenericMethodConstraintsDiffer()
+    public void Should_ReportCompilerDiagnostic_When_GenericMethodConstraintsDiffer()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
             """
@@ -582,8 +585,8 @@ public class FluentOfEnumExtensionsGeneratorTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(generatedCode, Does.Not.Contain("public static bool IsNone<"));
-            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(generatedCode, Does.Contain("public static bool IsNone<"));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0111"));
         });
     }
 
@@ -627,7 +630,7 @@ public class FluentOfEnumExtensionsGeneratorTests
     }
 
     [Test]
-    public void Should_ReportDiagnostic_When_ExistingMethodHasOptionalParameter()
+    public void Should_ReportCompilerDiagnostic_When_ExistingMethodHasOptionalParameter()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
             """
@@ -651,8 +654,8 @@ public class FluentOfEnumExtensionsGeneratorTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(generatedCode, Does.Not.Contain("public static bool Is("));
-            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0004"));
+            Assert.That(generatedCode, Does.Contain("public static bool Is("));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0111"));
         });
     }
 

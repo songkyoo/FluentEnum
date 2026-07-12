@@ -45,7 +45,7 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
             .ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: FluentAttributeMetadataName,
                 predicate: static (syntaxNode, _) => syntaxNode is EnumDeclarationSyntax,
-                transform: static (generatorAttributeSyntaxContext, _) => EnumContextFactory.GetFluentContext(
+                transform: static (generatorAttributeSyntaxContext, _) => EnumContextFactory.GetEnumContext(
                     generatorAttributeSyntaxContext
                 )
             );

@@ -139,7 +139,6 @@ internal static class ExtensionMethodFactory
         return new GeneratedMethod(
             Name: name,
             GenericParameters: generatedType.GenericParameters,
-            GenericArity: generatedType.GenericArity,
             GenericParameterConstraints: generatedType.GenericParameterConstraints,
             Parameters: parameters,
             Body: body

@@ -28,12 +28,4 @@ internal static class Diagnostics
         DiagnosticSeverity.Error,
         isEnabledByDefault: true
     );
-    public static readonly DiagnosticDescriptor ConflictingClassMember = new(
-        id: "MAFE0004",
-        title: "Class member conflicts with generated extension method",
-        messageFormat: "Member '{0}' in class '{1}' conflicts with generated extension method '{2}'.",
-        category: "Usage",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true
-    );
 }

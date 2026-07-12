@@ -9,7 +9,7 @@ internal static class EnumContextFactory
 {
     private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
 
-    public static AnalysisResult<EnumContext> GetFluentContext(
+    public static AnalysisResult<EnumContext> GetEnumContext(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
