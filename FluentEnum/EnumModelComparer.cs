@@ -1,14 +1,14 @@
 namespace Macaron.FluentEnum;
 
-internal sealed class EnumContextComparer : IEqualityComparer<EnumContext>
+public sealed class EnumModelComparer : IEqualityComparer<EnumModel>
 {
-    public static readonly EnumContextComparer Instance = new();
+    public static readonly EnumModelComparer Instance = new();
 
-    private EnumContextComparer()
+    private EnumModelComparer()
     {
     }
 
-    public bool Equals(EnumContext? x, EnumContext? y)
+    public bool Equals(EnumModel? x, EnumModel? y)
     {
         if (ReferenceEquals(x, y))
         {
@@ -20,7 +20,7 @@ internal sealed class EnumContextComparer : IEqualityComparer<EnumContext>
             return false;
         }
 
-        return EnumTypeContextComparer.Instance.Equals(x.TypeContext, y.TypeContext)
+        return EnumGenerationModelComparer.Instance.Equals(x.Generation, y.Generation)
             && ImmutableArrayComparer.Equals(
                 x.Members,
                 y.Members,
@@ -30,11 +30,11 @@ internal sealed class EnumContextComparer : IEqualityComparer<EnumContext>
             && x.HasFlags == y.HasFlags;
     }
 
-    public int GetHashCode(EnumContext obj)
+    public int GetHashCode(EnumModel obj)
     {
         unchecked
         {
-            var hashCode = EnumTypeContextComparer.Instance.GetHashCode(obj.TypeContext);
+            var hashCode = EnumGenerationModelComparer.Instance.GetHashCode(obj.Generation);
 
             hashCode = (hashCode * 397) ^ ImmutableArrayComparer.GetHashCode(
                 obj.Members,

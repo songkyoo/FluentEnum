@@ -1,14 +1,14 @@
 namespace Macaron.FluentEnum;
 
-internal sealed class ExtensionClassContextComparer : IEqualityComparer<ExtensionClassContext>
+internal sealed class ExtensionClassModelComparer : IEqualityComparer<ExtensionClassModel>
 {
-    public static readonly ExtensionClassContextComparer Instance = new();
+    public static readonly ExtensionClassModelComparer Instance = new();
 
-    private ExtensionClassContextComparer()
+    private ExtensionClassModelComparer()
     {
     }
 
-    public bool Equals(ExtensionClassContext? x, ExtensionClassContext? y)
+    public bool Equals(ExtensionClassModel? x, ExtensionClassModel? y)
     {
         if (ReferenceEquals(x, y))
         {
@@ -27,7 +27,7 @@ internal sealed class ExtensionClassContextComparer : IEqualityComparer<Extensio
             && stringComparer.Equals(x.AccessModifier, y.AccessModifier);
     }
 
-    public int GetHashCode(ExtensionClassContext obj)
+    public int GetHashCode(ExtensionClassModel obj)
     {
         var stringComparer = StringComparer.Ordinal;
 

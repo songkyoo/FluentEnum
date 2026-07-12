@@ -4,25 +4,25 @@ using Microsoft.CodeAnalysis;
 
 namespace Macaron.FluentEnum;
 
-internal static class GeneratedEnumTypeFactory
+internal static class EnumTypeModelFactory
 {
-    public static GeneratedEnumType Create(
-        INamedTypeSymbol typeSymbol,
+    public static EnumTypeModel Create(
+        INamedTypeSymbol enumSymbol,
         EnumTargetKind targetKind
     )
     {
         if (targetKind == EnumTargetKind.Closed)
         {
-            return new GeneratedEnumType(
-                Type: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            return new EnumTypeModel(
+                Type: enumSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 GenericParameters: "",
                 GenericParameterConstraints: ImmutableArray<string>.Empty
             );
         }
 
-        typeSymbol = typeSymbol.OriginalDefinition;
+        enumSymbol = enumSymbol.OriginalDefinition;
 
-        var typeSymbols = SymbolHelpers.GetNestedTypeSymbols(typeSymbol);
+        var typeSymbols = SymbolHelpers.GetNestedTypeSymbols(enumSymbol);
 
         if (!SymbolHelpers.HasDuplicatedTypeParameterName(typeSymbols))
         {
@@ -34,8 +34,8 @@ internal static class GeneratedEnumTypeFactory
                 typeParameters.Select(static symbol => symbol.Name)
             );
 
-            return new GeneratedEnumType(
-                Type: typeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+            return new EnumTypeModel(
+                Type: enumSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 GenericParameters: genericParameters.Length > 0 ? $"<{genericParameters}>" : "",
                 GenericParameterConstraints: typeParameters
                     .Select(static symbol => SymbolHelpers.GetTypeParameterConstraintClause(
@@ -47,7 +47,7 @@ internal static class GeneratedEnumTypeFactory
             );
         }
 
-        var @namespace = typeSymbol.ContainingNamespace is { IsGlobalNamespace: false } containingNamespace
+        var @namespace = enumSymbol.ContainingNamespace is { IsGlobalNamespace: false } containingNamespace
             ? containingNamespace.ToDisplayString()
             : "";
         var types = new List<string>();
@@ -93,7 +93,7 @@ internal static class GeneratedEnumTypeFactory
             types.Add(builder.ToString());
         }
 
-        return new GeneratedEnumType(
+        return new EnumTypeModel(
             Type: $"global::{(@namespace.Length > 0 ? $"{@namespace}." : "")}{string.Join(".", types)}",
             GenericParameters: typeParameterIndex > 0
                 ? $"<{string.Join(", ", Enumerable.Range(0, typeParameterIndex).Select(static index => $"T{index}"))}>"

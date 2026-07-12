@@ -1,14 +1,14 @@
 namespace Macaron.FluentEnum;
 
-internal sealed class GeneratedEnumTypeComparer : IEqualityComparer<GeneratedEnumType>
+public sealed class EnumTypeModelComparer : IEqualityComparer<EnumTypeModel>
 {
-    public static readonly GeneratedEnumTypeComparer Instance = new();
+    public static readonly EnumTypeModelComparer Instance = new();
 
-    private GeneratedEnumTypeComparer()
+    private EnumTypeModelComparer()
     {
     }
 
-    public bool Equals(GeneratedEnumType x, GeneratedEnumType y)
+    public bool Equals(EnumTypeModel x, EnumTypeModel y)
     {
         var stringComparer = StringComparer.Ordinal;
 
@@ -21,7 +21,7 @@ internal sealed class GeneratedEnumTypeComparer : IEqualityComparer<GeneratedEnu
             );
     }
 
-    public int GetHashCode(GeneratedEnumType obj)
+    public int GetHashCode(EnumTypeModel obj)
     {
         var stringComparer = StringComparer.Ordinal;
 

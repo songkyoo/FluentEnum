@@ -4,13 +4,16 @@ namespace Macaron.FluentEnum;
 
 internal static class ExtensionMethodRenderer
 {
-    public static ImmutableArray<string> Render(ImmutableArray<GeneratedMethod> methods, string indent)
+    public static ImmutableArray<string> Render(
+        ImmutableArray<ExtensionMethodModel> methodModels,
+        string indent
+    )
     {
         var lines = ImmutableArray.CreateBuilder<string>();
 
-        for (var i = 0; i < methods.Length; i++)
+        for (var i = 0; i < methodModels.Length; i++)
         {
-            var method = methods[i];
+            var methodModel = methodModels[i];
 
             if (i > 0)
             {
@@ -19,20 +22,20 @@ internal static class ExtensionMethodRenderer
 
             var parameters = string.Join(
                 ", ",
-                method.Parameters.Select(static parameter =>
-                    $"{(parameter.IsExtensionReceiver ? "this " : "")}{parameter.Type} {parameter.Name}"
+                methodModel.Parameters.Select(static parameterModel =>
+                    $"{(parameterModel.IsExtensionReceiver ? "this " : "")}{parameterModel.Type} {parameterModel.Name}"
                 )
             );
 
-            lines.Add($"public static bool {method.Name}{method.GenericParameters}({parameters})");
+            lines.Add($"public static bool {methodModel.Name}{methodModel.GenericParameters}({parameters})");
 
-            foreach (var constraint in method.GenericParameterConstraints)
+            foreach (var constraint in methodModel.GenericParameterConstraints)
             {
                 lines.Add($"{indent}{constraint}");
             }
 
             lines.Add("{");
-            lines.Add($"{indent}{method.Body}");
+            lines.Add($"{indent}{methodModel.Body}");
             lines.Add("}");
         }
 

@@ -48,31 +48,31 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
             .ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: FluentAttributeMetadataName,
                 predicate: static (syntaxNode, _) => syntaxNode is EnumDeclarationSyntax,
-                transform: static (generatorAttributeSyntaxContext, _) => EnumContextFactory.GetEnumContext(
+                transform: static (generatorAttributeSyntaxContext, _) => AnalysisModelFactory.GetEnumModel(
                     generatorAttributeSyntaxContext
                 )
             )
             .Where(static result => result is not null)
             .Select(static (result, _) => result!);
         var diagnosticProvider = analysisResult
-            .Where(static result => result is AnalysisResult<EnumContext>.Failure)
-            .SelectMany(static (result, _) => ((AnalysisResult<EnumContext>.Failure)result).Diagnostics);
-        var enumContextProvider = analysisResult
-            .Where(static result => result is AnalysisResult<EnumContext>.Success)
-            .Select(static (result, _) => ((AnalysisResult<EnumContext>.Success)result).Context)
-            .WithComparer(EnumContextComparer.Instance);
+            .Where(static result => result is AnalysisResult<EnumModel>.Failure)
+            .SelectMany(static (result, _) => ((AnalysisResult<EnumModel>.Failure)result).Diagnostics);
+        var enumModelProvider = analysisResult
+            .Where(static result => result is AnalysisResult<EnumModel>.Success)
+            .Select(static (result, _) => ((AnalysisResult<EnumModel>.Success)result).Model)
+            .WithComparer(EnumModelComparer.Instance);
 
         context.RegisterSourceOutput(diagnosticProvider, static (sourceProductionContext, diagnostic) =>
         {
             sourceProductionContext.ReportDiagnostic(diagnostic);
         });
-        context.RegisterSourceOutput(enumContextProvider, static (sourceProductionContext, enumContext) =>
+        context.RegisterSourceOutput(enumModelProvider, static (sourceProductionContext, enumModel) =>
         {
             SourceGenerationHelper.AddSource(
                 context: sourceProductionContext,
-                extensionClassContext: enumContext.TypeContext.ExtensionClassContext,
-                hintName: enumContext.TypeContext.HintName,
-                methods: ExtensionMethodFactory.Create(enumContext)
+                extensionClassModel: enumModel.Generation.ExtensionClass,
+                hintName: enumModel.Generation.HintName,
+                methodModels: ExtensionMethodModelFactory.Create(enumModel)
             );
         });
     }

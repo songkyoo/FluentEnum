@@ -1,6 +1,6 @@
 namespace Macaron.FluentEnum;
 
-internal sealed record ExtensionClassContext(
+public sealed record ExtensionClassModel(
     string Namespace,
     string ClassName,
     string AccessModifier

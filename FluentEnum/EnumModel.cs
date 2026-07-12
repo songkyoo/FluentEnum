@@ -1,8 +1,8 @@
 using System.Collections.Immutable;
 namespace Macaron.FluentEnum;
 
-internal sealed record EnumContext(
-    EnumTypeContext TypeContext,
+public sealed record EnumModel(
+    EnumGenerationModel Generation,
     ImmutableArray<EnumMember> Members,
     bool GenerateNegatedMembers,
     bool HasFlags

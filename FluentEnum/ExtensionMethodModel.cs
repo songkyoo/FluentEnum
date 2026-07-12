@@ -2,10 +2,10 @@ using System.Collections.Immutable;
 
 namespace Macaron.FluentEnum;
 
-internal sealed record GeneratedMethod(
+internal sealed record ExtensionMethodModel(
     string Name,
     string GenericParameters,
     ImmutableArray<string> GenericParameterConstraints,
-    ImmutableArray<GeneratedParameter> Parameters,
+    ImmutableArray<MethodParameterModel> Parameters,
     string Body
 );

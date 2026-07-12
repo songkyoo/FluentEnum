@@ -3,17 +3,17 @@ using System.Collections.Immutable;
 namespace Macaron.FluentEnum.Tests;
 
 [TestFixture]
-public class ContextComparerTests
+public class ModelComparerTests
 {
     [Test]
-    public void GeneratedEnumTypeComparer_Should_CompareConstraintValues()
+    public void EnumTypeModelComparer_Should_CompareConstraintValues()
     {
-        var x = new GeneratedEnumType(
+        var x = new EnumTypeModel(
             Type: "global::Foo<T>",
             GenericParameters: "<T>",
             GenericParameterConstraints: ImmutableArray.Create("where T : class")
         );
-        var y = new GeneratedEnumType(
+        var y = new EnumTypeModel(
             Type: "global::Foo<T>",
             GenericParameters: "<T>",
             GenericParameterConstraints: ImmutableArray.Create("where T : class")
@@ -25,36 +25,36 @@ public class ContextComparerTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(GeneratedEnumTypeComparer.Instance.Equals(x, y), Is.True);
+            Assert.That(EnumTypeModelComparer.Instance.Equals(x, y), Is.True);
             Assert.That(
-                GeneratedEnumTypeComparer.Instance.GetHashCode(x),
-                Is.EqualTo(GeneratedEnumTypeComparer.Instance.GetHashCode(y))
+                EnumTypeModelComparer.Instance.GetHashCode(x),
+                Is.EqualTo(EnumTypeModelComparer.Instance.GetHashCode(y))
             );
-            Assert.That(GeneratedEnumTypeComparer.Instance.Equals(x, different), Is.False);
+            Assert.That(EnumTypeModelComparer.Instance.Equals(x, different), Is.False);
         });
     }
 
     [Test]
-    public void EnumTypeContextComparer_Should_CompareGeneratedValues()
+    public void EnumGenerationModelComparer_Should_CompareGeneratedValues()
     {
-        var generatedType = new GeneratedEnumType(
+        var enumTypeModel = new EnumTypeModel(
             Type: "global::Foo",
             GenericParameters: "",
             GenericParameterConstraints: ImmutableArray<string>.Empty
         );
-        var x = new EnumTypeContext(
-            ExtensionClassContext: new ExtensionClassContext(
+        var x = new EnumGenerationModel(
+            ExtensionClass: new ExtensionClassModel(
                 Namespace: "Example",
                 ClassName: "FooExtensions",
                 AccessModifier: "public"
             ),
             HintName: "Foo_0.00000000.g.cs",
             ReceiverName: "foo",
-            GeneratedType: generatedType
+            EnumType: enumTypeModel
         );
         var y = x with
         {
-            GeneratedType = generatedType with
+            EnumType = enumTypeModel with
             {
                 GenericParameterConstraints = ImmutableArray<string>.Empty,
             },
@@ -62,37 +62,37 @@ public class ContextComparerTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(EnumTypeContextComparer.Instance.Equals(x, y), Is.True);
+            Assert.That(EnumGenerationModelComparer.Instance.Equals(x, y), Is.True);
             Assert.That(
-                EnumTypeContextComparer.Instance.GetHashCode(x),
-                Is.EqualTo(EnumTypeContextComparer.Instance.GetHashCode(y))
+                EnumGenerationModelComparer.Instance.GetHashCode(x),
+                Is.EqualTo(EnumGenerationModelComparer.Instance.GetHashCode(y))
             );
             Assert.That(
-                EnumTypeContextComparer.Instance.Equals(x, y with { ReceiverName = "value" }),
+                EnumGenerationModelComparer.Instance.Equals(x, y with { ReceiverName = "value" }),
                 Is.False
             );
         });
     }
 
     [Test]
-    public void EnumContextComparer_Should_CompareMemberValues()
+    public void EnumModelComparer_Should_CompareMemberValues()
     {
-        var typeContext = new EnumTypeContext(
-            ExtensionClassContext: new ExtensionClassContext(
+        var generationModel = new EnumGenerationModel(
+            ExtensionClass: new ExtensionClassModel(
                 Namespace: "Example",
                 ClassName: "FooExtensions",
                 AccessModifier: "public"
             ),
             HintName: "Foo_0.00000000.g.cs",
             ReceiverName: "foo",
-            GeneratedType: new GeneratedEnumType(
+            EnumType: new EnumTypeModel(
                 Type: "global::Foo",
                 GenericParameters: "",
                 GenericParameterConstraints: ImmutableArray<string>.Empty
             )
         );
-        var x = new EnumContext(
-            TypeContext: typeContext,
+        var x = new EnumModel(
+            Generation: generationModel,
             Members: ImmutableArray.Create(new EnumMember("None", 0)),
             GenerateNegatedMembers: true,
             HasFlags: false
@@ -104,38 +104,38 @@ public class ContextComparerTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(EnumContextComparer.Instance.Equals(x, y), Is.True);
+            Assert.That(EnumModelComparer.Instance.Equals(x, y), Is.True);
             Assert.That(
-                EnumContextComparer.Instance.GetHashCode(x),
-                Is.EqualTo(EnumContextComparer.Instance.GetHashCode(y))
+                EnumModelComparer.Instance.GetHashCode(x),
+                Is.EqualTo(EnumModelComparer.Instance.GetHashCode(y))
             );
             Assert.That(
-                EnumContextComparer.Instance.Equals(
+                EnumModelComparer.Instance.Equals(
                     x,
                     y with { Members = ImmutableArray.Create(new EnumMember("Other", 1)) }
                 ),
                 Is.False
             );
             Assert.That(
-                EnumContextComparer.Instance.Equals(x, y with { HasFlags = true }),
+                EnumModelComparer.Instance.Equals(x, y with { HasFlags = true }),
                 Is.False
             );
         });
     }
 
     [Test]
-    public void FluentOfContextComparer_Should_CompareExtensionClassAndEnumValues()
+    public void FluentOfModelComparer_Should_CompareExtensionClassAndEnumValues()
     {
-        var enumContext = new EnumContext(
-            TypeContext: new EnumTypeContext(
-                ExtensionClassContext: new ExtensionClassContext(
+        var enumModel = new EnumModel(
+            Generation: new EnumGenerationModel(
+                ExtensionClass: new ExtensionClassModel(
                     Namespace: "Example",
                     ClassName: "FooExtensions",
                     AccessModifier: "public"
                 ),
                 HintName: "Foo_0.00000000.g.cs",
                 ReceiverName: "foo",
-                GeneratedType: new GeneratedEnumType(
+                EnumType: new EnumTypeModel(
                     Type: "global::Example.Foo",
                     GenericParameters: "",
                     GenericParameterConstraints: ImmutableArray<string>.Empty
@@ -145,18 +145,18 @@ public class ContextComparerTests
             GenerateNegatedMembers: true,
             HasFlags: false
         );
-        var x = new FluentOfContext(
-            ExtensionClassContext: new ExtensionClassContext(
+        var x = new FluentOfModel(
+            ExtensionClass: new ExtensionClassModel(
                 Namespace: "Example",
                 ClassName: "CustomFooExtensions",
                 AccessModifier: "public"
             ),
-            EnumContext: enumContext
+            Enum: enumModel
         );
         var y = x with
         {
-            ExtensionClassContext = x.ExtensionClassContext with { Namespace = "Example" },
-            EnumContext = enumContext with
+            ExtensionClass = x.ExtensionClass with { Namespace = "Example" },
+            Enum = enumModel with
             {
                 Members = ImmutableArray.Create(new EnumMember("None", 0)),
             },
@@ -164,17 +164,17 @@ public class ContextComparerTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(FluentOfContextComparer.Instance.Equals(x, y), Is.True);
+            Assert.That(FluentOfModelComparer.Instance.Equals(x, y), Is.True);
             Assert.That(
-                FluentOfContextComparer.Instance.GetHashCode(x),
-                Is.EqualTo(FluentOfContextComparer.Instance.GetHashCode(y))
+                FluentOfModelComparer.Instance.GetHashCode(x),
+                Is.EqualTo(FluentOfModelComparer.Instance.GetHashCode(y))
             );
             Assert.That(
-                FluentOfContextComparer.Instance.Equals(
+                FluentOfModelComparer.Instance.Equals(
                     x,
                     y with
                     {
-                        ExtensionClassContext = y.ExtensionClassContext with
+                        ExtensionClass = y.ExtensionClass with
                         {
                             ClassName = "OtherExtensions",
                         },

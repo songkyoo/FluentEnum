@@ -2,7 +2,7 @@
 
 namespace Macaron.FluentEnum;
 
-internal readonly record struct GeneratedEnumType(
+public readonly record struct EnumTypeModel(
     string Type,
     string GenericParameters,
     ImmutableArray<string> GenericParameterConstraints

@@ -3,10 +3,10 @@ using Microsoft.CodeAnalysis;
 
 namespace Macaron.FluentEnum;
 
-internal abstract record AnalysisResult<TContext>
-    where TContext : class
+internal abstract record AnalysisResult<TModel>
+    where TModel : class
 {
-    internal sealed record Success(TContext Context) : AnalysisResult<TContext>;
+    internal sealed record Success(TModel Model) : AnalysisResult<TModel>;
 
-    internal sealed record Failure(ImmutableArray<Diagnostic> Diagnostics) : AnalysisResult<TContext>;
+    internal sealed record Failure(ImmutableArray<Diagnostic> Diagnostics) : AnalysisResult<TModel>;
 }

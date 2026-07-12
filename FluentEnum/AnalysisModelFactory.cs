@@ -7,35 +7,35 @@ using static Microsoft.CodeAnalysis.Accessibility;
 
 namespace Macaron.FluentEnum;
 
-internal static class EnumContextFactory
+internal static class AnalysisModelFactory
 {
     private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
 
-    public static AnalysisResult<EnumContext>? GetEnumContext(
+    public static AnalysisResult<EnumModel>? GetEnumModel(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
-        if (generatorAttributeSyntaxContext.TargetSymbol is not INamedTypeSymbol symbol)
+        if (generatorAttributeSyntaxContext.TargetSymbol is not INamedTypeSymbol enumSymbol)
         {
-            return new AnalysisResult<EnumContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+            return null;
         }
 
         if (generatorAttributeSyntaxContext.Attributes.Length != 1)
         {
-            return new AnalysisResult<EnumContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+            return null;
         }
 
         var fluentAttribute = generatorAttributeSyntaxContext.Attributes[0];
 
-        return CreateEnumContext(
-            symbol: symbol,
+        return CreateEnumModel(
+            enumSymbol: enumSymbol,
             generateNegatedMembers: (bool)fluentAttribute.ConstructorArguments[0].Value!,
             diagnosticLocation: fluentAttribute.ApplicationSyntaxReference?.GetSyntax().GetLocation(),
             targetKind: EnumTargetKind.Definition
         );
     }
 
-    public static AnalysisResult<FluentOfContext>? GetFluentOfContext(
+    public static AnalysisResult<FluentOfModel>? GetFluentOfModel(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
@@ -66,7 +66,7 @@ internal static class EnumContextFactory
         )
         )
         {
-            return new AnalysisResult<FluentOfContext>.Failure(
+            return new AnalysisResult<FluentOfModel>.Failure(
                 ImmutableArray.Create(Diagnostic.Create(
                     descriptor: Diagnostics.InvalidFluentOfClass,
                     location: attributeLocation,
@@ -75,7 +75,7 @@ internal static class EnumContextFactory
             );
         }
 
-        var extensionClass = new ExtensionClassContext(
+        var extensionClassModel = new ExtensionClassModel(
             Namespace: classSymbol.ContainingNamespace.IsGlobalNamespace
                 ? ""
                 : classSymbol.ContainingNamespace.ToDisplayString(),
@@ -96,7 +96,7 @@ internal static class EnumContextFactory
 
         if (enumSymbol?.OriginalDefinition.TypeKind != TypeKind.Enum)
         {
-            return new AnalysisResult<FluentOfContext>.Failure(
+            return new AnalysisResult<FluentOfModel>.Failure(
                 ImmutableArray.Create(Diagnostic.Create(
                     descriptor: Diagnostics.InvalidFluentOfTarget,
                     location: attributeLocation,
@@ -105,8 +105,8 @@ internal static class EnumContextFactory
             );
         }
 
-        var enumAnalysisResult = CreateEnumContext(
-            symbol: enumSymbol,
+        var enumAnalysisResult = CreateEnumModel(
+            enumSymbol: enumSymbol,
             generateNegatedMembers: (bool)fluentOfAttribute.ConstructorArguments[1].Value!,
             diagnosticLocation: attributeLocation,
             targetKind: SymbolHelpers
@@ -123,37 +123,37 @@ internal static class EnumContextFactory
 
         switch (enumAnalysisResult)
         {
-            case AnalysisResult<EnumContext>.Success success:
+            case AnalysisResult<EnumModel>.Success success:
             {
-                return new AnalysisResult<FluentOfContext>.Success(new FluentOfContext(
-                    ExtensionClassContext: extensionClass,
-                    EnumContext: success.Context
+                return new AnalysisResult<FluentOfModel>.Success(new FluentOfModel(
+                    ExtensionClass: extensionClassModel,
+                    Enum: success.Model
                 ));
             }
-            case AnalysisResult<EnumContext>.Failure failure:
+            case AnalysisResult<EnumModel>.Failure failure:
             {
-                return new AnalysisResult<FluentOfContext>.Failure(failure.Diagnostics);
+                return new AnalysisResult<FluentOfModel>.Failure(failure.Diagnostics);
             }
             default:
-                throw new InvalidOperationException();
+                throw new InvalidOperationException($"Invalid analysis result: {enumAnalysisResult}");
         }
     }
 
-    private static AnalysisResult<EnumContext>? CreateEnumContext(
-        INamedTypeSymbol symbol,
+    private static AnalysisResult<EnumModel>? CreateEnumModel(
+        INamedTypeSymbol enumSymbol,
         bool generateNegatedMembers,
         Location? diagnosticLocation,
         EnumTargetKind targetKind
     )
     {
-        var definitionSymbol = symbol.OriginalDefinition;
+        var definitionSymbol = enumSymbol.OriginalDefinition;
 
         if (GetAccessModifier(definitionSymbol) is not { } accessModifier)
         {
-            return new AnalysisResult<EnumContext>.Failure(ImmutableArray.Create(Diagnostic.Create(
+            return new AnalysisResult<EnumModel>.Failure(ImmutableArray.Create(Diagnostic.Create(
                 descriptor: Diagnostics.InvalidEnumAccessibility,
                 location: diagnosticLocation,
-                messageArgs: [symbol.Name]
+                messageArgs: [enumSymbol.Name]
             )));
         }
 
@@ -175,8 +175,8 @@ internal static class EnumContextFactory
             return null;
         }
 
-        return new AnalysisResult<EnumContext>.Success(new EnumContext(
-            TypeContext: EnumTypeContextFactory.Create(symbol, accessModifier, targetKind),
+        return new AnalysisResult<EnumModel>.Success(new EnumModel(
+            Generation: EnumGenerationModelFactory.Create(enumSymbol, accessModifier, targetKind),
             Members: members,
             GenerateNegatedMembers: generateNegatedMembers,
             HasFlags: hasFlags
