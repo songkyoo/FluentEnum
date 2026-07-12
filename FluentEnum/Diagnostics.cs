@@ -28,4 +28,12 @@ internal static class Diagnostics
         DiagnosticSeverity.Error,
         isEnabledByDefault: true
     );
+    public static readonly DiagnosticDescriptor FluentOfTargetHasFluent = new(
+        id: "MAFE0004",
+        title: "Conflicting Fluent attributes",
+        messageFormat: "FluentOf on class '{0}' cannot reference enum '{1}' because it already has Fluent.",
+        category: "Usage",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true
+    );
 }

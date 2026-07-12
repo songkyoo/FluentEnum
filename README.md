@@ -165,9 +165,7 @@ public static partial class CustomFooExtensions
 }
 ```
 
-위 코드에서 생성되는 메서드는 `CustomFooExtensions`의 다른 partial 선언에 추가됩니다. 생성기는 클래스의 기존 멤버와 충돌하는지 별도로 검사하지 않습니다.
-
-같은 C# 시그니처의 메서드나 같은 이름의 다른 멤버가 이미 있으면 생성된 코드와 함께 C# 컴파일러 진단이 발생합니다. 다른 시그니처의 정상적인 오버로드는 허용됩니다.
+위 코드에서 생성되는 메서드는 `CustomFooExtensions`의 다른 partial 선언에 추가됩니다. `FluentOf`가 가리키는 열거형에는 `Fluent`를 함께 적용할 수 없습니다.
 
 중첩된 제네릭 타입의 열거형은 완전히 열린 타입 또는 완전히 닫힌 타입으로 지정할 수 있습니다.
 

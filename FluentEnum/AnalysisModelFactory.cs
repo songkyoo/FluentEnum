@@ -10,6 +10,7 @@ namespace Macaron.FluentEnum;
 internal static class AnalysisModelFactory
 {
     private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
+    private const string FluentAttributeMetadataName = "Macaron.FluentEnum.FluentAttribute";
 
     public static AnalysisResult<EnumModel>? GetEnumModel(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
@@ -55,7 +56,6 @@ internal static class AnalysisModelFactory
         }
 
         var fluentOfAttribute = generatorAttributeSyntaxContext.Attributes[0];
-
         var attributeLocation = fluentOfAttribute.ApplicationSyntaxReference?.GetSyntax().GetLocation();
 
         if (!classSymbol.IsStatic
@@ -66,13 +66,11 @@ internal static class AnalysisModelFactory
         )
         )
         {
-            return new AnalysisResult<FluentOfModel>.Failure(
-                ImmutableArray.Create(Diagnostic.Create(
-                    descriptor: Diagnostics.InvalidFluentOfClass,
-                    location: attributeLocation,
-                    messageArgs: [classSymbol.Name]
-                ))
-            );
+            return new AnalysisResult<FluentOfModel>.Failure(ImmutableArray.Create(Diagnostic.Create(
+                descriptor: Diagnostics.InvalidFluentOfClass,
+                location: attributeLocation,
+                messageArgs: [classSymbol.Name]
+            )));
         }
 
         var extensionClassModel = new ExtensionClassModel(
@@ -96,13 +94,23 @@ internal static class AnalysisModelFactory
 
         if (enumSymbol?.OriginalDefinition.TypeKind != TypeKind.Enum)
         {
-            return new AnalysisResult<FluentOfModel>.Failure(
-                ImmutableArray.Create(Diagnostic.Create(
-                    descriptor: Diagnostics.InvalidFluentOfTarget,
-                    location: attributeLocation,
-                    messageArgs: [classSymbol.Name]
-                ))
-            );
+            return new AnalysisResult<FluentOfModel>.Failure(ImmutableArray.Create(Diagnostic.Create(
+                descriptor: Diagnostics.InvalidFluentOfTarget,
+                location: attributeLocation,
+                messageArgs: [classSymbol.Name]
+            )));
+        }
+
+        if (enumSymbol.OriginalDefinition
+            .GetAttributes()
+            .Any(static attributeData => attributeData.AttributeClass?.ToDisplayString() == FluentAttributeMetadataName)
+        )
+        {
+            return new AnalysisResult<FluentOfModel>.Failure(ImmutableArray.Create(Diagnostic.Create(
+                descriptor: Diagnostics.FluentOfTargetHasFluent,
+                location: attributeLocation,
+                messageArgs: [classSymbol.Name, enumSymbol.Name]
+            )));
         }
 
         var enumAnalysisResult = CreateEnumModel(

@@ -529,6 +529,52 @@ public class FluentOfEnumExtensionsGeneratorTests
     }
 
     [Test]
+    public void Should_ReportDiagnostic_When_FluentOfTargetHasFluentAttribute()
+    {
+        var (diagnostics, generatedCode) = CompileAndGetResults(
+            """
+            namespace Macaron.FluentEnum.Tests;
+
+            [Fluent]
+            public enum Foo
+            {
+                None,
+            }
+
+            public enum Bar
+            {
+                None,
+            }
+
+            [FluentOf(typeof(Foo))]
+            public static partial class CustomFooExtensions
+            {
+            }
+
+            [FluentOf(typeof(Bar))]
+            public static partial class CustomBarExtensions
+            {
+            }
+            """
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(generatedCode, Does.Contain("static partial class FooExtensions"));
+            Assert.That(generatedCode, Does.Not.Contain("static partial class CustomFooExtensions"));
+            Assert.That(generatedCode, Does.Contain("static partial class CustomBarExtensions"));
+            Assert.That(
+                diagnostics,
+                Has.Some.Matches<Diagnostic>(diagnostic =>
+                    diagnostic.Id == "MAFE0004"
+                    && diagnostic.GetMessage()
+                        == "FluentOf on class 'CustomFooExtensions' cannot reference enum 'Foo' because it already has Fluent."
+                )
+            );
+        });
+    }
+
+    [Test]
     public void Should_GenerateFlagExtensions_When_FluentOfTargetsFlagsEnum()
     {
         var (diagnostics, generatedCode) = CompileAndGetResults(
