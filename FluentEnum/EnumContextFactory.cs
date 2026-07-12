@@ -7,17 +7,20 @@ namespace Macaron.FluentEnum;
 
 internal static class EnumContextFactory
 {
-    internal const string FluentAttributeMetadataName = "Macaron.FluentEnum.FluentAttribute";
-    internal const string FluentOfAttributeMetadataName = "Macaron.FluentEnum.FluentOfAttribute";
     private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
 
-    public static (EnumContext?, ImmutableArray<Diagnostic>) GetFluentContext(
+    public static AnalysisResult<EnumContext> GetFluentContext(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
     )
     {
         if (generatorAttributeSyntaxContext.TargetSymbol is not INamedTypeSymbol symbol)
         {
-            return (null, ImmutableArray<Diagnostic>.Empty);
+            return new AnalysisResult<EnumContext>.Failure(ImmutableArray<Diagnostic>.Empty);
+        }
+
+        if (generatorAttributeSyntaxContext.Attributes.Length != 1)
+        {
+            return new AnalysisResult<EnumContext>.Failure(ImmutableArray<Diagnostic>.Empty);
         }
 
         var fluentAttribute = generatorAttributeSyntaxContext.Attributes[0];
@@ -91,7 +94,7 @@ internal static class EnumContextFactory
             );
         }
 
-        var (enumContext, diagnostics) = CreateEnumContext(
+        var enumAnalysisResult = CreateEnumContext(
             symbol: enumSymbol,
             generateNegatedMembers: (bool)fluentOfAttribute.ConstructorArguments[1].Value!,
             diagnosticLocation: attributeLocation,
@@ -102,37 +105,41 @@ internal static class EnumContextFactory
                 : EnumTargetKind.Closed
         );
 
-        if (enumContext != null)
+        switch (enumAnalysisResult)
         {
-            return new AnalysisResult<FluentOfContext>.Success(
-                ImmutableArray.Create(new FluentOfContext(classSymbol, enumContext))
-            );
+            case AnalysisResult<EnumContext>.Success success:
+            {
+                return new AnalysisResult<FluentOfContext>.Success(success
+                    .Contexts
+                    .Select(enumContext => new FluentOfContext(classSymbol, enumContext))
+                    .ToImmutableArray()
+                );
+            }
+            case AnalysisResult<EnumContext>.Failure failure:
+            {
+                return new AnalysisResult<FluentOfContext>.Failure(failure.Diagnostics);
+            }
+            default:
+                throw new InvalidOperationException();
         }
-
-        return diagnostics.IsEmpty
-            ? new AnalysisResult<FluentOfContext>.Success(ImmutableArray<FluentOfContext>.Empty)
-            : new AnalysisResult<FluentOfContext>.Failure(diagnostics);
     }
 
-    private static (EnumContext?, ImmutableArray<Diagnostic>) CreateEnumContext(
+    private static AnalysisResult<EnumContext> CreateEnumContext(
         INamedTypeSymbol symbol,
         bool generateNegatedMembers,
         Location? diagnosticLocation,
         EnumTargetKind targetKind
     )
     {
-        var diagnostics = ImmutableArray.CreateBuilder<Diagnostic>();
         var definitionSymbol = symbol.OriginalDefinition;
 
         if (GetAccessModifier(definitionSymbol) is not { } accessModifier)
         {
-            diagnostics.Add(Diagnostic.Create(
+            return new AnalysisResult<EnumContext>.Failure(ImmutableArray.Create(Diagnostic.Create(
                 descriptor: Diagnostics.InvalidEnumAccessibility,
                 location: diagnosticLocation,
                 messageArgs: [symbol.Name]
-            ));
-
-            return (null, diagnostics.ToImmutable());
+            )));
         }
 
         var hasFlags = definitionSymbol
@@ -150,20 +157,17 @@ internal static class EnumContextFactory
 
         if (members.Length < 1)
         {
-            return (null, diagnostics.ToImmutable());
+            return new AnalysisResult<EnumContext>.Success(ImmutableArray<EnumContext>.Empty);
         }
 
-        return (
-            new EnumContext(
-                Symbol: symbol,
-                AccessModifier: accessModifier,
-                Members: members,
-                GenerateNegatedMembers: generateNegatedMembers,
-                HasFlags: hasFlags,
-                TargetKind: targetKind
-            ),
-            diagnostics.ToImmutable()
-        );
+        return new AnalysisResult<EnumContext>.Success(ImmutableArray.Create(new EnumContext(
+            Symbol: symbol,
+            AccessModifier: accessModifier,
+            Members: members,
+            GenerateNegatedMembers: generateNegatedMembers,
+            HasFlags: hasFlags,
+            TargetKind: targetKind
+        )));
     }
 
     private static string? GetAccessModifier(INamedTypeSymbol typeSymbol)

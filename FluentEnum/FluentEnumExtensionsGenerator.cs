@@ -28,8 +28,7 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
         }
 
         """;
-
-    private const string DefaultIndent = "    ";
+    private const string FluentAttributeMetadataName = "Macaron.FluentEnum.FluentAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -41,38 +40,52 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
             );
         });
 
-        var enumValuesProvider = context
+        var analysisResultProvider = context
             .SyntaxProvider
             .ForAttributeWithMetadataName(
-                fullyQualifiedMetadataName: EnumContextFactory.FluentAttributeMetadataName,
+                fullyQualifiedMetadataName: FluentAttributeMetadataName,
                 predicate: static (syntaxNode, _) => syntaxNode is EnumDeclarationSyntax,
                 transform: static (generatorAttributeSyntaxContext, _) => EnumContextFactory.GetFluentContext(
                     generatorAttributeSyntaxContext
                 )
             );
 
-        context.RegisterSourceOutput(enumValuesProvider, static (sourceProductionContext, context) =>
+        context.RegisterSourceOutput(analysisResultProvider, static (sourceProductionContext, result) =>
         {
-            var (enumContext, diagnostics) = context;
-
-            foreach (var diagnostic in diagnostics)
+            switch (result)
             {
-                sourceProductionContext.ReportDiagnostic(diagnostic);
-            }
+                case AnalysisResult<EnumContext>.Success success:
+                {
+                    foreach (var enumContext in success.Contexts)
+                    {
+                        GenerateSource(sourceProductionContext, enumContext);
+                    }
 
-            if (enumContext != null)
-            {
-                SourceGenerationHelper.AddSource(
-                    context: sourceProductionContext,
-                    typeSymbol: enumContext.Symbol,
-                    accessModifier: enumContext.AccessModifier,
-                    lines: ExtensionMethodRenderer.Render(
-                        methods: ExtensionMethodFactory.Create(enumContext),
-                        indent: DefaultIndent
-                    ),
-                    indent: DefaultIndent
-                );
+                    break;
+                }
+                case AnalysisResult<EnumContext>.Failure failure:
+                {
+                    foreach (var diagnostic in failure.Diagnostics)
+                    {
+                        sourceProductionContext.ReportDiagnostic(diagnostic);
+                    }
+
+                    break;
+                }
             }
         });
+    }
+
+    private static void GenerateSource(
+        SourceProductionContext sourceProductionContext,
+        EnumContext enumContext
+    )
+    {
+        SourceGenerationHelper.AddSource(
+            context: sourceProductionContext,
+            typeSymbol: enumContext.Symbol,
+            accessModifier: enumContext.AccessModifier,
+            methods: ExtensionMethodFactory.Create(enumContext)
+        );
     }
 }

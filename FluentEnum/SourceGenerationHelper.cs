@@ -7,14 +7,17 @@ namespace Macaron.FluentEnum;
 
 internal static class SourceGenerationHelper
 {
+    private const string Indent = "    ";
+
     public static void AddSource(
         SourceProductionContext context,
         INamedTypeSymbol typeSymbol,
         string accessModifier,
-        ImmutableArray<string> lines,
-        string indent
+        ImmutableArray<GeneratedMethod> methods
     )
     {
+        var lines = ExtensionMethodRenderer.Render(methods, Indent);
+
         if (lines.IsDefaultOrEmpty)
         {
             return;
@@ -30,7 +33,7 @@ internal static class SourceGenerationHelper
             stringBuilder.AppendLine($"{{");
         }
 
-        var depthSpacerText = hasNamespace ? indent : "";
+        var depthSpacerText = hasNamespace ? Indent : "";
 
         // get nestedTypes
         var nestedTypeNames = new List<string>();
@@ -49,14 +52,14 @@ internal static class SourceGenerationHelper
         stringBuilder.AppendLine($"{depthSpacerText}{{");
 
         // write content
-        depthSpacerText += indent;
+        depthSpacerText += Indent;
 
         foreach (var line in lines)
         {
             stringBuilder.AppendLine($"{(line.Length > 0 ? depthSpacerText : "")}{line}");
         }
 
-        depthSpacerText = depthSpacerText[..^indent.Length];
+        depthSpacerText = depthSpacerText[..^Indent.Length];
 
         // end containingType
         stringBuilder.AppendLine($"{depthSpacerText}}}");
@@ -84,10 +87,11 @@ internal static class SourceGenerationHelper
         SourceProductionContext context,
         INamedTypeSymbol classSymbol,
         INamedTypeSymbol targetTypeSymbol,
-        ImmutableArray<string> lines,
-        string indent
+        ImmutableArray<GeneratedMethod> methods
     )
     {
+        var lines = ExtensionMethodRenderer.Render(methods, Indent);
+
         if (lines.IsDefaultOrEmpty)
         {
             return;
@@ -102,7 +106,7 @@ internal static class SourceGenerationHelper
             stringBuilder.AppendLine("{");
         }
 
-        var depthSpacerText = hasNamespace ? indent : "";
+        var depthSpacerText = hasNamespace ? Indent : "";
         var accessModifier = classSymbol.DeclaredAccessibility == Accessibility.Public
             ? "public"
             : "internal";
@@ -111,14 +115,14 @@ internal static class SourceGenerationHelper
         stringBuilder.AppendLine($"{depthSpacerText}{accessModifier} static partial class {className}");
         stringBuilder.AppendLine($"{depthSpacerText}{{");
 
-        depthSpacerText += indent;
+        depthSpacerText += Indent;
 
         foreach (var line in lines)
         {
             stringBuilder.AppendLine($"{(line.Length > 0 ? depthSpacerText : "")}{line}");
         }
 
-        depthSpacerText = depthSpacerText[..^indent.Length];
+        depthSpacerText = depthSpacerText[..^Indent.Length];
         stringBuilder.AppendLine($"{depthSpacerText}}}");
 
         if (hasNamespace)

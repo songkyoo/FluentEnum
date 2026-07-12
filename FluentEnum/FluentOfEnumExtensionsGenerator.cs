@@ -31,8 +31,7 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
         }
 
         """;
-
-    private const string DefaultIndent = "    ";
+    private const string FluentOfAttributeMetadataName = "Macaron.FluentEnum.FluentOfAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -47,7 +46,7 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
         var analysisResultProvider = context
             .SyntaxProvider
             .ForAttributeWithMetadataName(
-                fullyQualifiedMetadataName: EnumContextFactory.FluentOfAttributeMetadataName,
+                fullyQualifiedMetadataName: FluentOfAttributeMetadataName,
                 predicate: static (syntaxNode, _) => syntaxNode is ClassDeclarationSyntax,
                 transform: static (generatorAttributeSyntaxContext, _) => EnumContextFactory.GetFluentOfContext(
                     generatorAttributeSyntaxContext
@@ -101,8 +100,7 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
             context: sourceProductionContext,
             classSymbol,
             targetTypeSymbol: enumContext.Symbol,
-            lines: ExtensionMethodRenderer.Render(methods, DefaultIndent),
-            indent: DefaultIndent
+            methods
         );
     }
 }

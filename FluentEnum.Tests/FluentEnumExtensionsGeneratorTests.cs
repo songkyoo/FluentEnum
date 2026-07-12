@@ -703,4 +703,87 @@ public class FluentEnumExtensionsGeneratorTests
 
         Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0001"));
     }
+
+    [Test]
+    public void Should_GenerateOtherFluentSources_When_AnalysisFails()
+    {
+        var (diagnostics, generatedCode) = CompileAndGetResults(
+            """
+            namespace Macaron.FluentEnum.Tests;
+
+            [Fluent]
+            public enum Valid
+            {
+                None,
+            }
+
+            public class Container
+            {
+                [Fluent]
+                private enum Invalid
+                {
+                    None,
+                }
+            }
+            """
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(generatedCode, Does.Contain("static partial class ValidExtensions"));
+            Assert.That(generatedCode, Does.Not.Contain("static partial class Container_InvalidExtensions"));
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "MAFE0001"));
+        });
+    }
+
+    [Test]
+    public void Should_NotGenerateSource_When_FluentIsDuplicated()
+    {
+        var (diagnostics, generatedCode) = CompileAndGetResults(
+            """
+            namespace Macaron.FluentEnum.Tests;
+
+            [Fluent]
+            [Fluent]
+            public enum Foo
+            {
+                None,
+            }
+            """
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(generatedCode, Is.Empty);
+            Assert.That(diagnostics, Has.Some.Matches<Diagnostic>(diagnostic => diagnostic.Id == "CS0579"));
+            Assert.That(
+                diagnostics,
+                Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Id.StartsWith("MAFE"))
+            );
+        });
+    }
+
+    [Test]
+    public void Should_NotGenerateSource_When_FluentEnumHasNoMembers()
+    {
+        var (diagnostics, generatedCode) = CompileAndGetResults(
+            """
+            namespace Macaron.FluentEnum.Tests;
+
+            [Fluent]
+            public enum Empty
+            {
+            }
+            """
+        );
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(generatedCode, Is.Empty);
+            Assert.That(
+                diagnostics,
+                Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
+            );
+        });
+    }
 }
