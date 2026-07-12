@@ -51,8 +51,9 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
             .ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: FluentOfAttributeMetadataName,
                 predicate: static (syntaxNode, _) => syntaxNode is ClassDeclarationSyntax,
-                transform: static (generatorAttributeSyntaxContext, _) => AnalysisModelFactory.GetFluentOfModel(
-                    generatorAttributeSyntaxContext
+                transform: static (generatorAttributeSyntaxContext, cancellationToken) => AnalysisModelFactory.GetFluentOfModel(
+                    generatorAttributeSyntaxContext,
+                    cancellationToken
                 )
             )
             .Where(static result => result != null)
@@ -71,11 +72,14 @@ public class FluentOfEnumExtensionsGenerator : IIncrementalGenerator
         });
         context.RegisterSourceOutput(fluentOfModelProvider, static (sourceProductionContext, fluentOfModel) =>
         {
+            var cancellationToken = sourceProductionContext.CancellationToken;
+
             SourceGenerationHelper.AddSource(
                 context: sourceProductionContext,
                 extensionClassModel: fluentOfModel.ExtensionClass,
                 hintName: fluentOfModel.Enum.Generation.HintName,
-                methodModels: ExtensionMethodModelFactory.Create(fluentOfModel.Enum)
+                methodModels: ExtensionMethodModelFactory.Create(fluentOfModel.Enum, cancellationToken),
+                cancellationToken
             );
         });
     }

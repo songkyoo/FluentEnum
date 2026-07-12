@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Threading;
 
 namespace Macaron.FluentEnum;
 
@@ -6,13 +7,16 @@ internal static class ExtensionMethodRenderer
 {
     public static ImmutableArray<string> Render(
         ImmutableArray<ExtensionMethodModel> methodModels,
-        string indent
+        string indent,
+        CancellationToken cancellationToken
     )
     {
         var lines = ImmutableArray.CreateBuilder<string>();
 
         for (var i = 0; i < methodModels.Length; i++)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var methodModel = methodModels[i];
 
             if (i > 0)

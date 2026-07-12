@@ -1,18 +1,27 @@
 using System.Collections.Immutable;
+using System.Threading;
 
 namespace Macaron.FluentEnum;
 
 internal static class ExtensionMethodModelFactory
 {
-    public static ImmutableArray<ExtensionMethodModel> Create(EnumModel enumModel)
+    public static ImmutableArray<ExtensionMethodModel> Create(
+        EnumModel enumModel,
+        CancellationToken cancellationToken
+    )
     {
         var (generationModel, members, generateNegatedMembers, hasFlags) = enumModel;
         var enumTypeModel = generationModel.EnumType;
         var type = enumTypeModel.Type;
         var receiverName = generationModel.ReceiverName;
-        var memberSet = members
-            .Select(static member => member.Name)
-            .ToImmutableHashSet();
+        var memberSet = ImmutableHashSet.CreateBuilder<string>();
+
+        foreach (var member in members)
+        {
+            memberSet.Add(member.Name);
+        }
+
+        cancellationToken.ThrowIfCancellationRequested();
 
         var methodModels = ImmutableArray.CreateBuilder<ExtensionMethodModel>();
         var receiverParameterModel = new MethodParameterModel(
@@ -43,6 +52,8 @@ internal static class ExtensionMethodModelFactory
 
         foreach (var member in members)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             methodModels.Add(CreateMethodModel(
                 name: $"Is{member.Name}",
                 parameterModels: ImmutableArray.Create(receiverParameterModel),
@@ -55,6 +66,8 @@ internal static class ExtensionMethodModelFactory
         {
             foreach (var member in members)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var negatedMember = GetNegatedMemberName(member.Name);
 
                 if (memberSet.Contains(negatedMember))
@@ -73,6 +86,8 @@ internal static class ExtensionMethodModelFactory
 
         if (hasFlags)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             methodModels.Add(CreateMethodModel(
                 name: "Has",
                 parameterModels: ImmutableArray.Create(
@@ -93,8 +108,15 @@ internal static class ExtensionMethodModelFactory
                 enumTypeModel
             ));
 
-            foreach (var member in members.Where(static member => !IsZero(member.Value)))
+            foreach (var member in members)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (IsZero(member.Value))
+                {
+                    continue;
+                }
+
                 methodModels.Add(CreateMethodModel(
                     name: $"Has{member.Name}",
                     parameterModels: ImmutableArray.Create(receiverParameterModel),
@@ -105,8 +127,15 @@ internal static class ExtensionMethodModelFactory
 
             if (generateNegatedMembers)
             {
-                foreach (var member in members.Where(static member => !IsZero(member.Value)))
+                foreach (var member in members)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    if (IsZero(member.Value))
+                    {
+                        continue;
+                    }
+
                     var negatedMember = GetNegatedMemberName(member.Name);
 
                     if (memberSet.Contains(negatedMember))

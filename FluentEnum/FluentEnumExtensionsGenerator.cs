@@ -48,8 +48,9 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
             .ForAttributeWithMetadataName(
                 fullyQualifiedMetadataName: FluentAttributeMetadataName,
                 predicate: static (syntaxNode, _) => syntaxNode is EnumDeclarationSyntax,
-                transform: static (generatorAttributeSyntaxContext, _) => AnalysisModelFactory.GetEnumModel(
-                    generatorAttributeSyntaxContext
+                transform: static (generatorAttributeSyntaxContext, cancellationToken) => AnalysisModelFactory.GetEnumModel(
+                    generatorAttributeSyntaxContext,
+                    cancellationToken
                 )
             )
             .Where(static result => result is not null)
@@ -68,11 +69,14 @@ public class FluentEnumExtensionsGenerator : IIncrementalGenerator
         });
         context.RegisterSourceOutput(enumModelProvider, static (sourceProductionContext, enumModel) =>
         {
+            var cancellationToken = sourceProductionContext.CancellationToken;
+
             SourceGenerationHelper.AddSource(
                 context: sourceProductionContext,
                 extensionClassModel: enumModel.Generation.ExtensionClass,
                 hintName: enumModel.Generation.HintName,
-                methodModels: ExtensionMethodModelFactory.Create(enumModel)
+                methodModels: ExtensionMethodModelFactory.Create(enumModel, cancellationToken),
+                cancellationToken
             );
         });
     }

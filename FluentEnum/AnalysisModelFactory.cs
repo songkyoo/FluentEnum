@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
+using static Macaron.FluentEnum.SymbolHelpers;
 using static Microsoft.CodeAnalysis.Accessibility;
 
 namespace Macaron.FluentEnum;
@@ -13,15 +13,16 @@ internal static class AnalysisModelFactory
     private const string FluentAttributeMetadataName = "Macaron.FluentEnum.FluentAttribute";
 
     public static AnalysisResult<EnumModel>? GetEnumModel(
-        GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
+        GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext,
+        CancellationToken cancellationToken
     )
     {
-        if (generatorAttributeSyntaxContext.TargetSymbol is not INamedTypeSymbol enumSymbol)
+        if (generatorAttributeSyntaxContext.Attributes.Length != 1)
         {
             return null;
         }
 
-        if (generatorAttributeSyntaxContext.Attributes.Length != 1)
+        if (generatorAttributeSyntaxContext.TargetSymbol is not INamedTypeSymbol enumSymbol)
         {
             return null;
         }
@@ -31,15 +32,22 @@ internal static class AnalysisModelFactory
         return CreateEnumModel(
             enumSymbol: enumSymbol,
             generateNegatedMembers: (bool)fluentAttribute.ConstructorArguments[0].Value!,
-            diagnosticLocation: fluentAttribute.ApplicationSyntaxReference?.GetSyntax().GetLocation(),
-            targetKind: EnumTargetKind.Definition
+            diagnosticLocation: fluentAttribute.ApplicationSyntaxReference?.GetSyntax(cancellationToken).GetLocation(),
+            targetKind: EnumTargetKind.Definition,
+            cancellationToken: cancellationToken
         );
     }
 
     public static AnalysisResult<FluentOfModel>? GetFluentOfModel(
-        GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext
+        GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext,
+        CancellationToken cancellationToken
     )
     {
+        if (generatorAttributeSyntaxContext.Attributes.Length != 1)
+        {
+            return null;
+        }
+
         if (generatorAttributeSyntaxContext is not
             {
                 TargetNode: ClassDeclarationSyntax syntax,
@@ -50,20 +58,17 @@ internal static class AnalysisModelFactory
             return null;
         }
 
-        if (generatorAttributeSyntaxContext.Attributes.Length != 1)
-        {
-            return null;
-        }
-
         var fluentOfAttribute = generatorAttributeSyntaxContext.Attributes[0];
-        var attributeLocation = fluentOfAttribute.ApplicationSyntaxReference?.GetSyntax().GetLocation();
+        var attributeLocation = fluentOfAttribute
+            .ApplicationSyntaxReference?
+            .GetSyntax(cancellationToken)
+            .GetLocation();
 
         if (!classSymbol.IsStatic
             || classSymbol.Arity > 0
             || classSymbol.ContainingType != null
             || classSymbol.DeclaredAccessibility is not (Public or Internal)
-            || !syntax.Modifiers.Any(SyntaxKind.PartialKeyword
-        )
+            || !syntax.Modifiers.Any(SyntaxKind.PartialKeyword)
         )
         {
             return new AnalysisResult<FluentOfModel>.Failure(ImmutableArray.Create(Diagnostic.Create(
@@ -84,7 +89,8 @@ internal static class AnalysisModelFactory
         );
         var enumSymbol = GetEnumTypeArgument(
             generatorAttributeSyntaxContext.SemanticModel,
-            fluentOfAttribute
+            fluentOfAttribute,
+            cancellationToken
         );
 
         if (enumSymbol?.TypeKind == TypeKind.Error)
@@ -101,7 +107,8 @@ internal static class AnalysisModelFactory
             )));
         }
 
-        if (enumSymbol.OriginalDefinition
+        if (enumSymbol
+            .OriginalDefinition
             .GetAttributes()
             .Any(static attributeData => attributeData.AttributeClass?.ToDisplayString() == FluentAttributeMetadataName)
         )
@@ -117,11 +124,10 @@ internal static class AnalysisModelFactory
             enumSymbol: enumSymbol,
             generateNegatedMembers: (bool)fluentOfAttribute.ConstructorArguments[1].Value!,
             diagnosticLocation: attributeLocation,
-            targetKind: SymbolHelpers
-                .GetNestedTypeSymbols(enumSymbol)
-                .Any(static symbol => symbol.IsUnboundGenericType)
+            targetKind: GetNestedTypeSymbols(enumSymbol).Any(static symbol => symbol.IsUnboundGenericType)
                 ? EnumTargetKind.Definition
-                : EnumTargetKind.Closed
+                : EnumTargetKind.Closed,
+            cancellationToken
         );
 
         if (enumAnalysisResult == null)
@@ -151,9 +157,12 @@ internal static class AnalysisModelFactory
         INamedTypeSymbol enumSymbol,
         bool generateNegatedMembers,
         Location? diagnosticLocation,
-        EnumTargetKind targetKind
+        EnumTargetKind targetKind,
+        CancellationToken cancellationToken
     )
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         var definitionSymbol = enumSymbol.OriginalDefinition;
 
         if (GetAccessModifier(definitionSymbol) is not { } accessModifier)
@@ -168,24 +177,32 @@ internal static class AnalysisModelFactory
         var hasFlags = definitionSymbol
             .GetAttributes()
             .Any(static attributeData => attributeData.AttributeClass?.ToDisplayString() == FlagsAttributeMetadataName);
-        var members = definitionSymbol
-            .GetMembers()
-            .OfType<IFieldSymbol>()
-            .Where(static fieldSymbol => fieldSymbol.IsStatic && fieldSymbol.HasConstantValue)
-            .Select(static fieldSymbol => new EnumMember(
+
+        var members = ImmutableArray.CreateBuilder<EnumMember>();
+
+        foreach (var memberSymbol in definitionSymbol.GetMembers())
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (memberSymbol is not IFieldSymbol { IsStatic: true, HasConstantValue: true } fieldSymbol)
+            {
+                continue;
+            }
+
+            members.Add(new EnumMember(
                 Name: fieldSymbol.Name,
                 Value: fieldSymbol.ConstantValue!
-            ))
-            .ToImmutableArray();
+            ));
+        }
 
-        if (members.Length < 1)
+        if (members.Count < 1)
         {
             return null;
         }
 
         return new AnalysisResult<EnumModel>.Success(new EnumModel(
             Generation: EnumGenerationModelFactory.Create(enumSymbol, accessModifier, targetKind),
-            Members: members,
+            Members: members.ToImmutable(),
             GenerateNegatedMembers: generateNegatedMembers,
             HasFlags: hasFlags
         ));
@@ -215,14 +232,18 @@ internal static class AnalysisModelFactory
         return result;
     }
 
-    private static INamedTypeSymbol? GetEnumTypeArgument(SemanticModel semanticModel, AttributeData attributeData)
+    private static INamedTypeSymbol? GetEnumTypeArgument(
+        SemanticModel semanticModel,
+        AttributeData attributeData,
+        CancellationToken cancellationToken
+    )
     {
         if (attributeData.ConstructorArguments[0].Value is INamedTypeSymbol typeSymbol)
         {
             return typeSymbol;
         }
 
-        if (attributeData.ApplicationSyntaxReference?.GetSyntax() is AttributeSyntax
+        if (attributeData.ApplicationSyntaxReference?.GetSyntax(cancellationToken) is AttributeSyntax
             {
                 ArgumentList.Arguments: var arguments,
             }
@@ -235,7 +256,7 @@ internal static class AnalysisModelFactory
 
             if (typeOfExpression != null)
             {
-                return semanticModel.GetTypeInfo(typeOfExpression.Type).Type as INamedTypeSymbol;
+                return semanticModel.GetTypeInfo(typeOfExpression.Type, cancellationToken).Type as INamedTypeSymbol;
             }
         }
 

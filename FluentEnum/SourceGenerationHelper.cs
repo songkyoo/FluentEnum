@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Text;
+using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
@@ -13,10 +14,11 @@ internal static class SourceGenerationHelper
         SourceProductionContext context,
         ExtensionClassModel extensionClassModel,
         string hintName,
-        ImmutableArray<ExtensionMethodModel> methodModels
+        ImmutableArray<ExtensionMethodModel> methodModels,
+        CancellationToken cancellationToken
     )
     {
-        var lines = ExtensionMethodRenderer.Render(methodModels, Indent);
+        var lines = ExtensionMethodRenderer.Render(methodModels, Indent, cancellationToken);
 
         if (lines.IsDefaultOrEmpty)
         {
@@ -50,6 +52,7 @@ internal static class SourceGenerationHelper
 
         foreach (var line in lines)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             stringBuilder.AppendLine($"{(line.Length > 0 ? depthSpacerText : "")}{line}");
         }
 
@@ -63,9 +66,11 @@ internal static class SourceGenerationHelper
             stringBuilder.AppendLine("}");
         }
 
-        context.AddSource(
-            hintName: hintName,
-            sourceText: SourceText.From(stringBuilder.ToString(), Encoding.UTF8)
-        );
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var sourceText = SourceText.From(stringBuilder.ToString(), Encoding.UTF8);
+
+        cancellationToken.ThrowIfCancellationRequested();
+        context.AddSource(hintName: hintName, sourceText: sourceText);
     }
 }
