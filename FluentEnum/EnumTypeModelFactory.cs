@@ -22,9 +22,9 @@ internal static class EnumTypeModelFactory
 
         enumSymbol = enumSymbol.OriginalDefinition;
 
-        var typeSymbols = SymbolHelpers.GetNestedTypeSymbols(enumSymbol);
+        var typeSymbols = SymbolHelper.GetNestedTypeSymbols(enumSymbol);
 
-        if (!SymbolHelpers.HasDuplicatedTypeParameterName(typeSymbols))
+        if (!SymbolHelper.HasDuplicatedTypeParameterName(typeSymbols))
         {
             var typeParameters = typeSymbols
                 .SelectMany(static symbol => symbol.TypeParameters)
@@ -38,7 +38,7 @@ internal static class EnumTypeModelFactory
                 Type: enumSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
                 GenericParameters: genericParameters.Length > 0 ? $"<{genericParameters}>" : "",
                 GenericParameterConstraints: typeParameters
-                    .Select(static symbol => SymbolHelpers.GetTypeParameterConstraintClause(
+                    .Select(static symbol => SymbolHelper.GetTypeParameterConstraintClause(
                         symbol,
                         static name => name
                     ))
@@ -83,7 +83,7 @@ internal static class EnumTypeModelFactory
 
                 foreach (var typeParameterSymbol in symbol.TypeParameters)
                 {
-                    genericParameterConstraints.Add( SymbolHelpers.GetTypeParameterConstraintClause(
+                    genericParameterConstraints.Add( SymbolHelper.GetTypeParameterConstraintClause(
                         typeParameterSymbol,
                         name => mapper[name]
                     ));

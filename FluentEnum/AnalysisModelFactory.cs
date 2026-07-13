@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using static Macaron.FluentEnum.SymbolHelpers;
+using static Macaron.FluentEnum.SymbolHelper;
 using static Microsoft.CodeAnalysis.Accessibility;
 
 namespace Macaron.FluentEnum;
@@ -82,7 +82,7 @@ internal static class AnalysisModelFactory
             Namespace: classSymbol.ContainingNamespace.IsGlobalNamespace
                 ? ""
                 : classSymbol.ContainingNamespace.ToDisplayString(),
-            ClassName: NamingHelpers.GetEscapedKeyword(classSymbol.Name),
+            ClassName: NamingHelper.GetEscapedKeyword(classSymbol.Name),
             AccessModifier: classSymbol.DeclaredAccessibility == Public
                 ? "public"
                 : "internal"

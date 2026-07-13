@@ -14,7 +14,7 @@ internal static class EnumGenerationModelFactory
         var @namespace = enumSymbol.ContainingNamespace.IsGlobalNamespace
             ? ""
             : enumSymbol.ContainingNamespace.ToDisplayString();
-        var typeNames = SymbolHelpers
+        var typeNames = SymbolHelper
             .GetNestedTypeSymbols(enumSymbol)
             .Select(static typeSymbol => $"{typeSymbol.Name}{(typeSymbol.Arity > 0 ? $"_{typeSymbol.Arity}" : "")}");
         var qualifiedName = enumSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
@@ -26,7 +26,7 @@ internal static class EnumGenerationModelFactory
                 AccessModifier: accessModifier
             ),
             HintName: $"{enumSymbol.Name}_{enumSymbol.Arity}.{GetStableHash(qualifiedName):x8}.g.cs",
-            ReceiverName: NamingHelpers.GetEscapedKeyword(NamingHelpers.GetCamelCaseName(enumSymbol.Name)),
+            ReceiverName: NamingHelper.GetEscapedKeyword(NamingHelper.GetCamelCaseName(enumSymbol.Name)),
             EnumType: EnumTypeModelFactory.Create(enumSymbol, targetKind)
         );
     }

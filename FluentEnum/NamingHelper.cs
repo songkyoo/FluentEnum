@@ -4,7 +4,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFacts;
 
 namespace Macaron.FluentEnum;
 
-public static class NamingHelpers
+public static class NamingHelper
 {
     public static string GetCamelCaseName(string name)
     {

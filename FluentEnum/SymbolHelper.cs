@@ -5,7 +5,7 @@ using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
 namespace Macaron.FluentEnum;
 
-public static class SymbolHelpers
+public static class SymbolHelper
 {
     public static bool HasDuplicatedTypeParameterName(ImmutableArray<INamedTypeSymbol> typeSymbols)
     {
