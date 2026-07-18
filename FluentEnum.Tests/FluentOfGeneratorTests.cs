@@ -27,7 +27,7 @@ public class FluentOfGeneratorTests
                 Bar,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
             }
@@ -79,7 +79,7 @@ public class FluentOfGeneratorTests
                 Bar,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static bool IsBar(this Foo foo)
@@ -109,7 +109,7 @@ public class FluentOfGeneratorTests
                 Bar,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static bool IsBar(this Foo foo, int value)
@@ -142,7 +142,7 @@ public class FluentOfGeneratorTests
                 Bar,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static bool IsBar => false;
@@ -169,7 +169,7 @@ public class FluentOfGeneratorTests
                 Bar,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static int IsBar(this Foo foo)
@@ -207,7 +207,7 @@ public class FluentOfGeneratorTests
                 }
             }
 
-            [FluentOf(typeof(Outer<object>.Inner<int>.Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Outer<object>.Inner<int>.Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
             }
@@ -247,7 +247,7 @@ public class FluentOfGeneratorTests
                 }
             }
 
-            [FluentOf(typeof(Outer<>.Inner<>.Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Outer<>.Inner<>.Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
             }
@@ -288,7 +288,7 @@ public class FluentOfGeneratorTests
                 }
             }
 
-            [FluentOf(typeof(Outer<>.Inner<>.Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Outer<>.Inner<>.Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static bool IsNone<TOuter, TInner>(
@@ -623,7 +623,7 @@ public class FluentOfGeneratorTests
                 }
             }
 
-            [FluentOf(typeof(Outer<>.Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Outer<>.Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static bool IsNone<TActual>(this Outer<TActual>.Foo foo)
@@ -656,7 +656,7 @@ public class FluentOfGeneratorTests
                 None,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
             }
@@ -693,7 +693,7 @@ public class FluentOfGeneratorTests
                 None,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
                 public static bool Is(this Foo foo, Foo value = default)
@@ -723,7 +723,7 @@ public class FluentOfGeneratorTests
                 None,
             }
 
-            [FluentOf(typeof(Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
             public static partial class @class
             {
             }
@@ -757,7 +757,7 @@ public class FluentOfGeneratorTests
                 }
             }
 
-            [FluentOf(typeof(Outer<>.Inner<>.Foo), generateNegatedMembers: false)]
+            [FluentOf(typeof(Outer<>.Inner<>.Foo), GenerateNegatedMembers = false)]
             public static partial class CustomFooExtensions
             {
             }

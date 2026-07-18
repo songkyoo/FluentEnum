@@ -82,7 +82,7 @@ foo.IsBaz(); // false
 부정 비교 메서드는 기본적으로 함께 생성됩니다. 멤버별 부정 비교 메서드가 필요하지 않다면 다음과 같이 비활성화할 수 있습니다. `IsNot(value)`와 `HasNot(value)`는 이 설정과 관계없이 생성됩니다.
 
 ```csharp
-[Fluent(generateNegatedMembers: false)]
+[Fluent(GenerateNegatedMembers = false)]
 public enum Foo
 {
     Bar,
@@ -166,6 +166,15 @@ public static partial class CustomFooExtensions
 ```
 
 위 코드에서 생성되는 메서드는 `CustomFooExtensions`의 다른 partial 선언에 추가됩니다. `FluentOf`가 가리키는 열거형에는 `Fluent`를 함께 적용할 수 없습니다.
+
+멤버별 부정 비교 메서드를 비활성화하려면 `Fluent` 사용 시와 동일하게 `GenerateNegatedMembers`를 `false`로 지정합니다.
+
+```csharp
+[FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
+public static partial class CustomFooExtensions
+{
+}
+```
 
 중첩된 제네릭 타입의 열거형은 완전히 열린 타입 또는 완전히 닫힌 타입으로 지정할 수 있습니다.
 

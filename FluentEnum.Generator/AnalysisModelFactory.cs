@@ -11,6 +11,7 @@ internal static class AnalysisModelFactory
 {
     private const string FlagsAttributeMetadataName = "System.FlagsAttribute";
     private const string FluentAttributeMetadataName = "Macaron.FluentEnum.FluentAttribute";
+    private const string GenerateNegatedMembersPropertyName = "GenerateNegatedMembers";
 
     public static AnalysisResult<EnumModel>? GetEnumModel(
         GeneratorAttributeSyntaxContext generatorAttributeSyntaxContext,
@@ -31,7 +32,7 @@ internal static class AnalysisModelFactory
 
         return CreateEnumModel(
             enumSymbol: enumSymbol,
-            generateNegatedMembers: (bool)fluentAttribute.ConstructorArguments[0].Value!,
+            generateNegatedMembers: GetGenerateNegatedMembers(fluentAttribute),
             diagnosticLocation: fluentAttribute.ApplicationSyntaxReference?.GetSyntax(cancellationToken).GetLocation(),
             targetKind: EnumTargetKind.Definition,
             cancellationToken: cancellationToken
@@ -122,7 +123,7 @@ internal static class AnalysisModelFactory
 
         var enumAnalysisResult = CreateEnumModel(
             enumSymbol: enumSymbol,
-            generateNegatedMembers: (bool)fluentOfAttribute.ConstructorArguments[1].Value!,
+            generateNegatedMembers: GetGenerateNegatedMembers(fluentOfAttribute),
             diagnosticLocation: attributeLocation,
             targetKind: GetNestedTypeSymbols(enumSymbol).Any(static symbol => symbol.IsUnboundGenericType)
                 ? EnumTargetKind.Definition
@@ -206,6 +207,24 @@ internal static class AnalysisModelFactory
             GenerateNegatedMembers: generateNegatedMembers,
             HasFlags: hasFlags
         ));
+    }
+
+    private static bool GetGenerateNegatedMembers(AttributeData attributeData)
+    {
+        foreach (var namedArgument in attributeData.NamedArguments)
+        {
+            if (namedArgument is
+                {
+                    Key: GenerateNegatedMembersPropertyName,
+                    Value.Value: bool generateNegatedMembers,
+                }
+            )
+            {
+                return generateNegatedMembers;
+            }
+        }
+
+        return true;
     }
 
     private static string? GetAccessModifier(INamedTypeSymbol typeSymbol)

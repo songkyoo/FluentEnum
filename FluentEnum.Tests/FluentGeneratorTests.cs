@@ -260,7 +260,7 @@ public class FluentGeneratorTests
             """
             using Macaron.FluentEnum;
 
-            [Fluent(generateNegatedMembers: false)]
+            [Fluent(GenerateNegatedMembers = false)]
             public enum Foo
             {
                 None,
@@ -316,7 +316,7 @@ public class FluentGeneratorTests
 
             public class Foo
             {
-                [Fluent(generateNegatedMembers: false)]
+                [Fluent(GenerateNegatedMembers = false)]
                 public enum Bar
                 {
                     None,
@@ -383,7 +383,7 @@ public class FluentGeneratorTests
                 public class Bar<TBar>
                     where TBar : struct
                 {
-                    [Fluent(generateNegatedMembers: false)]
+                    [Fluent(GenerateNegatedMembers = false)]
                     public enum Baz
                     {
                         None,
@@ -516,7 +516,7 @@ public class FluentGeneratorTests
                 public class Bar<T>
                     where T : struct
                 {
-                    [Fluent(generateNegatedMembers: false)]
+                    [Fluent(GenerateNegatedMembers = false)]
                     public enum Baz
                     {
                         None,
@@ -580,7 +580,7 @@ public class FluentGeneratorTests
                 public class Bar<T>
                     where T : struct
                 {
-                    [Fluent(generateNegatedMembers: false)]
+                    [Fluent(GenerateNegatedMembers = false)]
                     public enum Baz
                     {
                         None,
@@ -634,7 +634,7 @@ public class FluentGeneratorTests
 
             internal class Foo
             {
-                [Fluent(generateNegatedMembers: false)]
+                [Fluent(GenerateNegatedMembers = false)]
                 public enum Bar
                 {
                     None,
