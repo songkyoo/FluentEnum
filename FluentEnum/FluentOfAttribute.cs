@@ -3,7 +3,7 @@
 namespace Macaron.FluentEnum;
 
 [Conditional("SOURCE_GENERATOR_ONLY")]
-[AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 public sealed class FluentOfAttribute(Type enumType) : Attribute
 {
     public Type EnumType { get; } = enumType;
