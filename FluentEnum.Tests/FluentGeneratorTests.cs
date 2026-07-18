@@ -12,7 +12,7 @@ using static Microsoft.CodeAnalysis.IncrementalStepRunReason;
 namespace Macaron.FluentEnum.Tests;
 
 [TestFixture]
-public class FluentEnumExtensionsGeneratorTests
+public class FluentGeneratorTests
 {
     [Test]
     public void Should_GenerateExtensions_When_HasFluentAttribute()
@@ -810,7 +810,7 @@ public class FluentEnumExtensionsGeneratorTests
         var compilation = CreateCompilation(sourceCode);
         var syntaxTree = compilation.SyntaxTrees.Single();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            generators: [new FluentEnumExtensionsGenerator().AsSourceGenerator()],
+            generators: [new FluentGenerator().AsSourceGenerator()],
             additionalTexts: [],
             parseOptions: (CSharpParseOptions)syntaxTree.Options,
             optionsProvider: null,

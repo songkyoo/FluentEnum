@@ -29,8 +29,8 @@ public static class Helper
         var compilation = CreateCompilation(sourceCode);
         var driver = CSharpGeneratorDriver
             .Create(
-                new FluentEnumExtensionsGenerator(),
-                new FluentOfEnumExtensionsGenerator()
+                new FluentGenerator(),
+                new FluentOfGenerator()
             )
             .RunGeneratorsAndUpdateCompilation(
                 compilation,
@@ -59,10 +59,13 @@ public static class Helper
 
     public static CSharpCompilation CreateCompilation(string sourceCode)
     {
+        var attributesAssembly = typeof(FluentAttribute).Assembly;
+
         var references = AppDomain
             .CurrentDomain
             .GetAssemblies()
             .Where(assembly => !assembly.IsDynamic && !string.IsNullOrWhiteSpace(assembly.Location))
+            .Append(attributesAssembly)
             .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
             .Cast<MetadataReference>()
             .ToImmutableArray();

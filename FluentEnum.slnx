@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FluentEnum/FluentEnum.csproj" />
+  <Project Path="FluentEnum.Generator/FluentEnum.Generator.csproj" />
+  <Project Path="FluentEnum.Tests/FluentEnum.Tests.csproj" />
+</Solution>

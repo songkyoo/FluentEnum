@@ -20,6 +20,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\FluentEnum\FluentEnum.csproj" />
+    <ProjectReference Include="..\FluentEnum.Generator\FluentEnum.Generator.csproj" />
   </ItemGroup>
 
   <ItemGroup>
