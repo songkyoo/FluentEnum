@@ -108,6 +108,26 @@ internal static class ExtensionMethodModelFactory
                 enumTypeModel
             ));
 
+            methodModels.Add(CreateMethodModel(
+                name: "HasAny",
+                parameterModels: ImmutableArray.Create(
+                    receiverParameterModel,
+                    new MethodParameterModel(type, "value")
+                ),
+                body: $"return ({receiverName} & value) != 0;",
+                enumTypeModel
+            ));
+
+            methodModels.Add(CreateMethodModel(
+                name: "HasNone",
+                parameterModels: ImmutableArray.Create(
+                    receiverParameterModel,
+                    new MethodParameterModel(type, "value")
+                ),
+                body: $"return ({receiverName} & value) == 0;",
+                enumTypeModel
+            ));
+
             foreach (var member in members)
             {
                 cancellationToken.ThrowIfCancellationRequested();

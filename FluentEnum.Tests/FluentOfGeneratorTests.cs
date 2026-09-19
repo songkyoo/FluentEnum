@@ -602,7 +602,9 @@ public class FluentOfGeneratorTests
         {
             Assert.That(generatedCode, Does.Contain("public static bool Has("));
             Assert.That(generatedCode, Does.Contain("public static bool HasNotBar("));
-            Assert.That(generatedCode, Does.Not.Contain("public static bool HasNone("));
+            Assert.That(generatedCode, Does.Contain("public static bool HasAny("));
+            Assert.That(generatedCode, Does.Contain("public static bool HasNone("));
+            Assert.That(generatedCode, Does.Not.Contain("HasNone(this global::Macaron.FluentEnum.Tests.Foo foo)"));
             Assert.That(diagnostics, Has.None.Matches<Diagnostic>(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
         });
     }

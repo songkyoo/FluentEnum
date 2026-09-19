@@ -13,7 +13,7 @@ dotnet pack ./FluentEnum/FluentEnum.csproj -c Release
 ## 특징
 
 - 열거형에 `Fluent` 어트리뷰트를 적용하면 `Is`, `IsNot`, `IsXXX`, `IsNotXXX` 확장 메서드를 생성합니다. `value == Foo.Bar`와 같은 코드를 `value.IsBar()`처럼 자연스럽게 작성할 수 있습니다.
-- 열거형이 `Flags` 어트리뷰트를 가지고 있는 경우 추가로 `Has`, `HasNot`, `HasXXX`, `HasNotXXX` 확장 메서드를 생성합니다.
+- 열거형이 `Flags` 어트리뷰트를 가지고 있는 경우 추가로 `Has`, `HasNot`, `HasAny`, `HasNone`, `HasXXX`, `HasNotXXX` 확장 메서드를 생성합니다.
 - `static partial` 클래스에 `FluentOf` 어트리뷰트를 적용하면 자동으로 정해지는 클래스 대신 원하는 클래스에 확장 메서드를 생성할 수 있습니다.
 - 열거형이 중첩된 타입 내부에 있는 경우에도 올바르게 동작하며 중첩된 타입이 제네릭과 제네릭 형식 제약 조건을 가진 경우에도 동작합니다.
 
@@ -120,6 +120,8 @@ public static class FooExtensions
     {
         return (foo & value) == value;
     }
+    
+    // HasNot, HasAny, HasNone
 
     public static bool HasBar(this global::Foo foo)
     {
@@ -146,6 +148,39 @@ foo.HasBar(); // true
 foo.HasBaz(); // false
 ```
 
+### 플래그 포함 여부 비교 방법
+
+| 메서드 | 의미 | 구현 | `value`가 0일 때 |
+| --- | --- | --- | --- |
+| `Has(value)` | 모든 비트를 포함 | `(receiver & value) == value` | `true` |
+| `HasNot(value)` | 모든 비트를 포함하지는 않음 | `(receiver & value) != value` | `false` |
+| `HasAny(value)` | 하나 이상의 비트를 포함 | `(receiver & value) != 0` | `false` |
+| `HasNone(value)` | 어떤 비트도 포함하지 않음 | `(receiver & value) == 0` | `true` |
+
+```csharp
+var foo = Foo.Bar;
+
+foo.HasNot(Foo.Bar | Foo.Baz); // true
+foo.HasAny(Foo.Bar | Foo.Baz); // true
+foo.HasNone(Foo.Bar | Foo.Baz); // false
+foo.HasNone(Foo.Baz); // true
+```
+
+### Flags 어트리뷰트 없이 플래그 메서드 생성하기
+
+`TreatAsFlags = true`를 지정하면 `Flags` 어트리뷰트가 없는 열거형도 `Flags` 어트리뷰트가 있는 것과 동일하게 취급합니다.
+
+```csharp
+// Flags 어트리뷰트가 있는 것처럼 Has 계열 메서드를 생성하지만 열거형 자체에 Flags 어트리뷰트가 적용되는 것은 아닙니다.
+[Fluent(TreatAsFlags = true)]
+public enum Permission
+{
+    None = 0,
+    Read = 1,
+    Write = 2,
+}
+```
+
 ## 확장 클래스 지정하기
 
 확장 메서드를 특정 클래스에 생성하려면 최상위의 비제네릭 `static partial` 클래스에 `FluentOf` 어트리뷰트를 적용합니다.
@@ -167,7 +202,7 @@ public static partial class CustomFooExtensions
 
 위 코드에서 생성되는 메서드는 `CustomFooExtensions`의 다른 partial 선언에 추가됩니다. `FluentOf`가 가리키는 열거형에는 `Fluent`를 함께 적용할 수 없습니다.
 
-멤버별 부정 비교 메서드를 비활성화하려면 `Fluent` 사용 시와 동일하게 `GenerateNegatedMembers`를 `false`로 지정합니다.
+`GenerateNegatedMembers`, `TreatAsFlags`은 `Fluent` 어트리뷰트와 동일하게 적용됩니다.
 
 ```csharp
 [FluentOf(typeof(Foo), GenerateNegatedMembers = false)]
@@ -187,20 +222,5 @@ public static partial class OpenFooExtensions
 [FluentOf(typeof(Container<string>.Nested<int>.Foo))]
 public static partial class ClosedFooExtensions
 {
-}
-```
-
-## Flags 어트리뷰트 없이 플래그 메서드 생성하기
-
-`Fluent`, `FluentOf` 어트리뷰트에 `TreatAsFlags = true`를 지정하면 `Flags` 어트리뷰트가 없는 열거형도 `Flags` 어트리뷰트가 있는 것과 동일하게 취급합니다.
-
-```csharp
-// Flags 어트리뷰트가 있는 것처럼 Has 계열 메서드를 생성하지만 열거형 자체에 Flags 어트리뷰트가 적용되는 것은 아닙니다.
-[Fluent(TreatAsFlags = true)]
-public enum Permission
-{
-    None = 0,
-    Read = 1,
-    Write = 2,
 }
 ```

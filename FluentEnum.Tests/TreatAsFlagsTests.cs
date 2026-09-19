@@ -52,7 +52,9 @@ public class TreatAsFlagsTests
             Assert.That(code.Contains("public static bool HasRead("), Is.EqualTo(expectedFlags));
             Assert.That(code.Contains("public static bool HasNotRead("), Is.EqualTo(expectedFlags));
             Assert.That(code.Contains("public static bool HasBoth("), Is.EqualTo(expectedFlags));
-            Assert.That(code, Does.Not.Contain("public static bool HasNone("));
+            Assert.That(code.Contains("public static bool HasAny("), Is.EqualTo(expectedFlags));
+            Assert.That(code.Contains("public static bool HasNone("), Is.EqualTo(expectedFlags));
+            Assert.That(code, Does.Not.Contain("HasNone(this global::Permission permission)"));
         });
     }
 
@@ -75,6 +77,8 @@ public class TreatAsFlagsTests
             Assert.That(diagnostics, Has.None.Matches<Diagnostic>(d => d.Severity == DiagnosticSeverity.Error));
             Assert.That(code, Does.Contain("public static bool HasRead("));
             Assert.That(code, Does.Contain("public static bool HasNot("));
+            Assert.That(code, Does.Contain("public static bool HasAny("));
+            Assert.That(code, Does.Contain("public static bool HasNone("));
             Assert.That(code, Does.Not.Contain("public static bool HasNotRead("));
             Assert.That(code, Does.Not.Contain("public static bool IsNotRead("));
         });
