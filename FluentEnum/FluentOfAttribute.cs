@@ -8,5 +8,7 @@ public sealed class FluentOfAttribute(Type enumType) : Attribute
 {
     public Type EnumType { get; } = enumType;
 
+    public bool TreatAsFlags { get; set; }
+
     public bool GenerateNegatedMembers { get; set; } = true;
 }

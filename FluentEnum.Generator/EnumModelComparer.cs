@@ -27,7 +27,7 @@ public sealed class EnumModelComparer : IEqualityComparer<EnumModel>
                 EqualityComparer<EnumMember>.Default
             )
             && x.GenerateNegatedMembers == y.GenerateNegatedMembers
-            && x.HasFlags == y.HasFlags;
+            && x.IsFlags == y.IsFlags;
     }
 
     public int GetHashCode(EnumModel obj)
@@ -42,7 +42,7 @@ public sealed class EnumModelComparer : IEqualityComparer<EnumModel>
             );
 
             hashCode = (hashCode * 397) ^ obj.GenerateNegatedMembers.GetHashCode();
-            hashCode = (hashCode * 397) ^ obj.HasFlags.GetHashCode();
+            hashCode = (hashCode * 397) ^ obj.IsFlags.GetHashCode();
 
             return hashCode;
         }

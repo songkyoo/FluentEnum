@@ -95,7 +95,7 @@ public class ModelComparerTests
             Generation: generationModel,
             Members: ImmutableArray.Create(new EnumMember("None", 0)),
             GenerateNegatedMembers: true,
-            HasFlags: false
+            IsFlags: false
         );
         var y = x with
         {
@@ -117,7 +117,7 @@ public class ModelComparerTests
                 Is.False
             );
             Assert.That(
-                EnumModelComparer.Instance.Equals(x, y with { HasFlags = true }),
+                EnumModelComparer.Instance.Equals(x, y with { IsFlags = true }),
                 Is.False
             );
         });
@@ -143,7 +143,7 @@ public class ModelComparerTests
             ),
             Members: ImmutableArray.Create(new EnumMember("None", 0)),
             GenerateNegatedMembers: true,
-            HasFlags: false
+            IsFlags: false
         );
         var x = new FluentOfModel(
             ExtensionClass: new ExtensionClassModel(

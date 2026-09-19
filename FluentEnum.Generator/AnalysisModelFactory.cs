@@ -33,6 +33,7 @@ internal static class AnalysisModelFactory
         return CreateEnumModel(
             enumSymbol: enumSymbol,
             generateNegatedMembers: GetGenerateNegatedMembers(fluentAttribute),
+            treatAsFlags: GetTreatAsFlags(fluentAttribute),
             diagnosticLocation: fluentAttribute.ApplicationSyntaxReference?.GetSyntax(cancellationToken).GetLocation(),
             targetKind: EnumTargetKind.Definition,
             cancellationToken: cancellationToken
@@ -124,6 +125,7 @@ internal static class AnalysisModelFactory
         var enumAnalysisResult = CreateEnumModel(
             enumSymbol: enumSymbol,
             generateNegatedMembers: GetGenerateNegatedMembers(fluentOfAttribute),
+            treatAsFlags: GetTreatAsFlags(fluentOfAttribute),
             diagnosticLocation: attributeLocation,
             targetKind: GetNestedTypeSymbols(enumSymbol).Any(static symbol => symbol.IsUnboundGenericType)
                 ? EnumTargetKind.Definition
@@ -157,6 +159,7 @@ internal static class AnalysisModelFactory
     private static AnalysisResult<EnumModel>? CreateEnumModel(
         INamedTypeSymbol enumSymbol,
         bool generateNegatedMembers,
+        bool treatAsFlags,
         Location? diagnosticLocation,
         EnumTargetKind targetKind,
         CancellationToken cancellationToken
@@ -175,9 +178,10 @@ internal static class AnalysisModelFactory
             )));
         }
 
-        var hasFlags = definitionSymbol
-            .GetAttributes()
-            .Any(static attributeData => attributeData.AttributeClass?.ToDisplayString() == FlagsAttributeMetadataName);
+        var isFlags = treatAsFlags || definitionSymbol.GetAttributes().Any(static attributeData =>
+        {
+            return attributeData.AttributeClass?.ToDisplayString() == FlagsAttributeMetadataName;
+        });
 
         var members = ImmutableArray.CreateBuilder<EnumMember>();
 
@@ -205,8 +209,16 @@ internal static class AnalysisModelFactory
             Generation: EnumGenerationModelFactory.Create(enumSymbol, accessModifier, targetKind),
             Members: members.ToImmutable(),
             GenerateNegatedMembers: generateNegatedMembers,
-            HasFlags: hasFlags
+            IsFlags: isFlags
         ));
+    }
+
+    private static bool GetTreatAsFlags(AttributeData attributeData)
+    {
+        return attributeData.NamedArguments.Any(static argument =>
+        {
+            return argument is { Key: "TreatAsFlags", Value.Value: true };
+        });
     }
 
     private static bool GetGenerateNegatedMembers(AttributeData attributeData)

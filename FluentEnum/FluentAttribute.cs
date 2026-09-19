@@ -6,5 +6,7 @@ namespace Macaron.FluentEnum;
 [AttributeUsage(AttributeTargets.Enum)]
 public sealed class FluentAttribute : Attribute
 {
+    public bool TreatAsFlags { get; set; }
+
     public bool GenerateNegatedMembers { get; set; } = true;
 }

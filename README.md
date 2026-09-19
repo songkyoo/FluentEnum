@@ -2,7 +2,7 @@
 
 열거형을 더 자연스럽고 읽기 쉬운 형태로 사용할 수 있도록 하는 확장 메서드를 자동 생성하는 C# 소스 제네레이터입니다.
 
-## 빌드하기
+## 패키지 생성하기
 
 ```shell
 dotnet pack ./FluentEnum/FluentEnum.csproj -c Release
@@ -187,5 +187,20 @@ public static partial class OpenFooExtensions
 [FluentOf(typeof(Container<string>.Nested<int>.Foo))]
 public static partial class ClosedFooExtensions
 {
+}
+```
+
+## Flags 어트리뷰트 없이 플래그 메서드 생성하기
+
+`Fluent`, `FluentOf` 어트리뷰트에 `TreatAsFlags = true`를 지정하면 `Flags` 어트리뷰트가 없는 열거형도 `Flags` 어트리뷰트가 있는 것과 동일하게 취급합니다.
+
+```csharp
+// Flags 어트리뷰트가 있는 것처럼 Has 계열 메서드를 생성하지만 열거형 자체에 Flags 어트리뷰트가 적용되는 것은 아닙니다.
+[Fluent(TreatAsFlags = true)]
+public enum Permission
+{
+    None = 0,
+    Read = 1,
+    Write = 2,
 }
 ```

@@ -5,5 +5,5 @@ public sealed record EnumModel(
     EnumGenerationModel Generation,
     ImmutableArray<EnumMember> Members,
     bool GenerateNegatedMembers,
-    bool HasFlags
+    bool IsFlags
 );

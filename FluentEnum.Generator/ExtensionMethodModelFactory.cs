@@ -10,7 +10,7 @@ internal static class ExtensionMethodModelFactory
         CancellationToken cancellationToken
     )
     {
-        var (generationModel, members, generateNegatedMembers, hasFlags) = enumModel;
+        var (generationModel, members, generateNegatedMembers, isFlags) = enumModel;
         var enumTypeModel = generationModel.EnumType;
         var type = enumTypeModel.Type;
         var receiverName = generationModel.ReceiverName;
@@ -84,7 +84,7 @@ internal static class ExtensionMethodModelFactory
             }
         }
 
-        if (hasFlags)
+        if (isFlags)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
