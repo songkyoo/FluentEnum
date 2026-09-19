@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
+using System.Text;
 
 using static Microsoft.CodeAnalysis.SymbolDisplayFormat;
 
@@ -32,7 +33,7 @@ public static class SymbolHelper
 
     public static string GetTypeParameterConstraintClause(
         ITypeParameterSymbol typeParameterSymbol,
-        Func<string, string> nameSelector
+        ImmutableDictionary<ITypeParameterSymbol, string> parameterMap
     )
     {
         var constraints = new List<string>();
@@ -60,7 +61,7 @@ public static class SymbolHelper
 
         foreach (var constraintType in typeParameterSymbol.ConstraintTypes)
         {
-            constraints.Add(constraintType.ToDisplayString(FullyQualifiedFormat));
+            constraints.Add(GetTypeString(constraintType, parameterMap));
         }
 
         if (typeParameterSymbol.HasConstructorConstraint)
@@ -69,7 +70,29 @@ public static class SymbolHelper
         }
 
         return constraints.Count > 0
-            ? $"where {nameSelector.Invoke(typeParameterSymbol.Name)} : {string.Join(", ", constraints)}"
+            ? $"where {parameterMap[typeParameterSymbol]} : {string.Join(", ", constraints)}"
             : "";
+    }
+
+    internal static string GetTypeString(
+        ITypeSymbol typeSymbol,
+        ImmutableDictionary<ITypeParameterSymbol, string> parameterMap
+    )
+    {
+        var format = FullyQualifiedFormat.AddMiscellaneousOptions(
+            SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
+        );
+        var builder = new StringBuilder();
+
+        foreach (var part in typeSymbol.ToDisplayParts(format))
+        {
+            builder.Append(part.Symbol is ITypeParameterSymbol parameter
+                && parameterMap.TryGetValue(parameter, out var name)
+                ? name
+                : part.ToString()
+            );
+        }
+
+        return builder.ToString();
     }
 }
