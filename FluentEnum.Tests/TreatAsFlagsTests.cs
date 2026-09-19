@@ -53,6 +53,8 @@ public class TreatAsFlagsTests
             Assert.That(code.Contains("public static bool HasNotRead("), Is.EqualTo(expectedFlags));
             Assert.That(code.Contains("public static bool HasBoth("), Is.EqualTo(expectedFlags));
             Assert.That(code.Contains("public static bool HasAny("), Is.EqualTo(expectedFlags));
+            Assert.That(code.Contains("public static global::Permission Add("), Is.EqualTo(expectedFlags));
+            Assert.That(code.Contains("public static global::Permission Remove("), Is.EqualTo(expectedFlags));
             Assert.That(code.Contains("public static bool HasNone("), Is.EqualTo(expectedFlags));
             Assert.That(code, Does.Not.Contain("HasNone(this global::Permission permission)"));
         });
@@ -78,6 +80,8 @@ public class TreatAsFlagsTests
             Assert.That(code, Does.Contain("public static bool HasRead("));
             Assert.That(code, Does.Contain("public static bool HasNot("));
             Assert.That(code, Does.Contain("public static bool HasAny("));
+            Assert.That(code, Does.Contain("public static global::Permission Add("));
+            Assert.That(code, Does.Contain("public static global::Permission Remove("));
             Assert.That(code, Does.Contain("public static bool HasNone("));
             Assert.That(code, Does.Not.Contain("public static bool HasNotRead("));
             Assert.That(code, Does.Not.Contain("public static bool IsNotRead("));

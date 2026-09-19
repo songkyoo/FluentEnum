@@ -236,6 +236,16 @@ public class FluentGeneratorTests
                         return (foo & value) == 0;
                     }
 
+                    public static global::Macaron.FluentEnum.Tests.Foo Add(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value)
+                    {
+                        return foo | value;
+                    }
+
+                    public static global::Macaron.FluentEnum.Tests.Foo Remove(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value)
+                    {
+                        return foo & ~value;
+                    }
+
                     public static bool HasBar(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
                         return (foo & global::Macaron.FluentEnum.Tests.Foo.Bar) == global::Macaron.FluentEnum.Tests.Foo.Bar;

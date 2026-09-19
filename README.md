@@ -121,7 +121,7 @@ public static class FooExtensions
         return (foo & value) == value;
     }
     
-    // HasNot, HasAny, HasNone
+    // HasNot, HasAny, HasNone, Add, Remove
 
     public static bool HasBar(this global::Foo foo)
     {
@@ -148,7 +148,7 @@ foo.HasBar(); // true
 foo.HasBaz(); // false
 ```
 
-### 플래그 포함 여부 비교 방법
+### 플래그 포함 여부 비교
 
 | 메서드 | 의미 | 구현 | `value`가 0일 때 |
 | --- | --- | --- | --- |
@@ -165,6 +165,13 @@ foo.HasAny(Foo.Bar | Foo.Baz); // true
 foo.HasNone(Foo.Bar | Foo.Baz); // false
 foo.HasNone(Foo.Baz); // true
 ```
+
+### 플래그 추가와 제거
+
+플래그 열거형에는 공통 메서드 `Add(value)`와 `Remove(value)`도 생성합니다.
+
+- `Add`는 `|` 연산자와 동일합니다.
+- `Remove`는 `x & ~y`로 지정한 비트를 모두 끕니다.
 
 ### Flags 어트리뷰트 없이 플래그 메서드 생성하기
 

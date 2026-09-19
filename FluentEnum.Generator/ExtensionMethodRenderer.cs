@@ -31,7 +31,7 @@ internal static class ExtensionMethodRenderer
                 )
             );
 
-            lines.Add($"public static bool {methodModel.Name}{methodModel.GenericParameters}({parameters})");
+            lines.Add($"public static {methodModel.ReturnType} {methodModel.Name}{methodModel.GenericParameters}({parameters})");
 
             foreach (var constraint in methodModel.GenericParameterConstraints)
             {

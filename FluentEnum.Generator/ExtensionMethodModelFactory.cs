@@ -128,6 +128,28 @@ internal static class ExtensionMethodModelFactory
                 enumTypeModel
             ));
 
+            methodModels.Add(CreateMethodModel(
+                name: "Add",
+                parameterModels: ImmutableArray.Create(
+                    receiverParameterModel,
+                    new MethodParameterModel(type, "value")
+                ),
+                body: $"return {receiverName} | value;",
+                enumTypeModel,
+                returnType: type
+            ));
+
+            methodModels.Add(CreateMethodModel(
+                name: "Remove",
+                parameterModels: ImmutableArray.Create(
+                    receiverParameterModel,
+                    new MethodParameterModel(type, "value")
+                ),
+                body: $"return {receiverName} & ~value;",
+                enumTypeModel,
+                returnType: type
+            ));
+
             foreach (var member in members)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -180,11 +202,13 @@ internal static class ExtensionMethodModelFactory
         string name,
         ImmutableArray<MethodParameterModel> parameterModels,
         string body,
-        EnumTypeModel enumTypeModel
+        EnumTypeModel enumTypeModel,
+        string returnType = "bool"
     )
     {
         return new ExtensionMethodModel(
             Name: name,
+            ReturnType: returnType,
             GenericParameters: enumTypeModel.GenericParameters,
             GenericParameterConstraints: enumTypeModel.GenericParameterConstraints,
             Parameters: parameterModels,
