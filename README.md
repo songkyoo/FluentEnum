@@ -12,7 +12,7 @@ dotnet pack ./FluentEnum/FluentEnum.csproj -c Release
 
 ## 특징
 
-- 열거형에 `Fluent` 어트리뷰트를 적용하면 `Is`, `IsNot`, `IsXXX`, `IsNotXXX` 확장 메서드를 생성합니다. `value == Foo.Bar`와 같은 코드를 `value.IsBar()`처럼 자연스럽게 작성할 수 있습니다.
+- 열거형에 `Fluent` 어트리뷰트를 적용하면 `Is`, `IsNot`, `IsAny`, `IsNone`, `IsXXX`, `IsNotXXX` 확장 메서드를 생성합니다. `value == Foo.Bar`와 같은 코드를 `value.IsBar()`처럼 자연스럽게 작성할 수 있습니다.
 - 열거형이 `Flags` 어트리뷰트를 가지고 있는 경우 추가로 `Has`, `HasNot`, `HasAny`, `HasNone`, `HasXXX`, `HasNotXXX` 확장 메서드를 생성합니다.
 - `static partial` 클래스에 `FluentOf` 어트리뷰트를 적용하면 자동으로 정해지는 클래스 대신 원하는 클래스에 확장 메서드를 생성할 수 있습니다.
 - 열거형이 중첩된 타입 내부에 있는 경우에도 올바르게 동작하며 중첩된 타입이 제네릭과 제네릭 형식 제약 조건을 가진 경우에도 동작합니다.
@@ -77,6 +77,13 @@ foo.Is(Foo.Bar); // true
 foo.Is(Foo.Baz); // false
 foo.IsBar(); // true
 foo.IsBaz(); // false
+```
+
+여러 값 중 하나와 일치하는지 확인할 때는 `IsAny`, 어느 값과도 일치하지 않는지 확인할 때는 `IsNone`을 사용합니다. 플래그 열거형에서도 비트가 아닌 전체 값의 일치 여부를 비교합니다.
+
+```csharp
+foo.IsAny(Foo.Bar, Foo.Baz); // true
+foo.IsNone(Foo.Bar, Foo.Baz); // false
 ```
 
 부정 비교 메서드는 기본적으로 함께 생성됩니다. 멤버별 부정 비교 메서드가 필요하지 않다면 다음과 같이 비활성화할 수 있습니다. `IsNot(value)`와 `HasNot(value)`는 이 설정과 관계없이 생성됩니다.

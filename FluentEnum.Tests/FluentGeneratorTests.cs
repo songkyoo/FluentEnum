@@ -50,6 +50,96 @@ public class FluentGeneratorTests
                         return foo != value;
                     }
 
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2)
+                    {
+                        return foo == value1 || foo == value2;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2)
+                    {
+                        return !(foo == value1 || foo == value2);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8, params global::Macaron.FluentEnum.Tests.Foo[] values)
+                    {
+                        if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (foo == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8, params global::Macaron.FluentEnum.Tests.Foo[] values)
+                    {
+                        if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (foo == value) return false;
+                        }
+                        return true;
+                    }
+
                     public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
                         return foo == global::Macaron.FluentEnum.Tests.Foo.None;
@@ -121,6 +211,96 @@ public class FluentGeneratorTests
                         return foo != value;
                     }
 
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2)
+                    {
+                        return foo == value1 || foo == value2;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2)
+                    {
+                        return !(foo == value1 || foo == value2);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8, params global::Macaron.FluentEnum.Tests.Foo[] values)
+                    {
+                        if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (foo == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8, params global::Macaron.FluentEnum.Tests.Foo[] values)
+                    {
+                        if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (foo == value) return false;
+                        }
+                        return true;
+                    }
+
                     public static bool IsBar(this global::Macaron.FluentEnum.Tests.Foo foo)
                     {
                         return foo == global::Macaron.FluentEnum.Tests.Foo.Bar;
@@ -184,6 +364,96 @@ public class FluentGeneratorTests
                     public static bool IsNot(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value)
                     {
                         return foo != value;
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2)
+                    {
+                        return foo == value1 || foo == value2;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2)
+                    {
+                        return !(foo == value1 || foo == value2);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8)
+                    {
+                        return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8)
+                    {
+                        return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8, params global::Macaron.FluentEnum.Tests.Foo[] values)
+                    {
+                        if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (foo == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo, global::Macaron.FluentEnum.Tests.Foo value1, global::Macaron.FluentEnum.Tests.Foo value2, global::Macaron.FluentEnum.Tests.Foo value3, global::Macaron.FluentEnum.Tests.Foo value4, global::Macaron.FluentEnum.Tests.Foo value5, global::Macaron.FluentEnum.Tests.Foo value6, global::Macaron.FluentEnum.Tests.Foo value7, global::Macaron.FluentEnum.Tests.Foo value8, params global::Macaron.FluentEnum.Tests.Foo[] values)
+                    {
+                        if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (foo == value) return false;
+                        }
+                        return true;
                     }
 
                     public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo foo)
@@ -306,6 +576,96 @@ public class FluentGeneratorTests
                     return foo != value;
                 }
 
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2)
+                {
+                    return foo == value1 || foo == value2;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2)
+                {
+                    return !(foo == value1 || foo == value2);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3)
+                {
+                    return foo == value1 || foo == value2 || foo == value3;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3)
+                {
+                    return !(foo == value1 || foo == value2 || foo == value3);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4)
+                {
+                    return foo == value1 || foo == value2 || foo == value3 || foo == value4;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4)
+                {
+                    return !(foo == value1 || foo == value2 || foo == value3 || foo == value4);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5)
+                {
+                    return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5)
+                {
+                    return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6)
+                {
+                    return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6)
+                {
+                    return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6, global::Foo value7)
+                {
+                    return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6, global::Foo value7)
+                {
+                    return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6, global::Foo value7, global::Foo value8)
+                {
+                    return foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6, global::Foo value7, global::Foo value8)
+                {
+                    return !(foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8);
+                }
+
+                public static bool IsAny(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6, global::Foo value7, global::Foo value8, params global::Foo[] values)
+                {
+                    if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return true;
+                    foreach (var value in values)
+                    {
+                        if (foo == value) return true;
+                    }
+                    return false;
+                }
+
+                public static bool IsNone(this global::Foo foo, global::Foo value1, global::Foo value2, global::Foo value3, global::Foo value4, global::Foo value5, global::Foo value6, global::Foo value7, global::Foo value8, params global::Foo[] values)
+                {
+                    if (foo == value1 || foo == value2 || foo == value3 || foo == value4 || foo == value5 || foo == value6 || foo == value7 || foo == value8) return false;
+                    foreach (var value in values)
+                    {
+                        if (foo == value) return false;
+                    }
+                    return true;
+                }
+
                 public static bool IsNone(this global::Foo foo)
                 {
                     return foo == global::Foo.None;
@@ -363,6 +723,96 @@ public class FluentGeneratorTests
                     public static bool IsNot(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value)
                     {
                         return bar != value;
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2)
+                    {
+                        return bar == value1 || bar == value2;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2)
+                    {
+                        return !(bar == value1 || bar == value2);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8, params global::Macaron.FluentEnum.Tests.Foo.Bar[] values)
+                    {
+                        if (bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (bar == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8, params global::Macaron.FluentEnum.Tests.Foo.Bar[] values)
+                    {
+                        if (bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (bar == value) return false;
+                        }
+                        return true;
                     }
 
                     public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar)
@@ -436,6 +886,144 @@ public class FluentGeneratorTests
                         return baz != value;
                     }
 
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value7)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value7)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value8)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value8)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8);
+                    }
+
+                    public static bool IsAny<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value8, params global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz[] values)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (baz == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz value8, params global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz[] values)
+                        where T : class
+                        where TQux : global::Macaron.FluentEnum.Tests.IQux
+                        where TBar : struct
+                    {
+                        if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (baz == value) return false;
+                        }
+                        return true;
+                    }
+
                     public static bool IsNone<T, TQux, TBar>(this global::Macaron.FluentEnum.Tests.Foo<T, TQux>.Bar<TBar>.Baz baz)
                         where T : class
                         where TQux : global::Macaron.FluentEnum.Tests.IQux
@@ -496,6 +1084,144 @@ public class FluentGeneratorTests
                     where TBar : struct
                 {
                     return baz != value;
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6, global::Foo<T, TQux>.Bar<TBar>.Baz value7)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6, global::Foo<T, TQux>.Bar<TBar>.Baz value7)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6, global::Foo<T, TQux>.Bar<TBar>.Baz value7, global::Foo<T, TQux>.Bar<TBar>.Baz value8)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6, global::Foo<T, TQux>.Bar<TBar>.Baz value7, global::Foo<T, TQux>.Bar<TBar>.Baz value8)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8);
+                }
+
+                public static bool IsAny<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6, global::Foo<T, TQux>.Bar<TBar>.Baz value7, global::Foo<T, TQux>.Bar<TBar>.Baz value8, params global::Foo<T, TQux>.Bar<TBar>.Baz[] values)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return true;
+                    foreach (var value in values)
+                    {
+                        if (baz == value) return true;
+                    }
+                    return false;
+                }
+
+                public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz, global::Foo<T, TQux>.Bar<TBar>.Baz value1, global::Foo<T, TQux>.Bar<TBar>.Baz value2, global::Foo<T, TQux>.Bar<TBar>.Baz value3, global::Foo<T, TQux>.Bar<TBar>.Baz value4, global::Foo<T, TQux>.Bar<TBar>.Baz value5, global::Foo<T, TQux>.Bar<TBar>.Baz value6, global::Foo<T, TQux>.Bar<TBar>.Baz value7, global::Foo<T, TQux>.Bar<TBar>.Baz value8, params global::Foo<T, TQux>.Bar<TBar>.Baz[] values)
+                    where T : class
+                    where TQux : global::IQux
+                    where TBar : struct
+                {
+                    if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return false;
+                    foreach (var value in values)
+                    {
+                        if (baz == value) return false;
+                    }
+                    return true;
                 }
 
                 public static bool IsNone<T, TQux, TBar>(this global::Foo<T, TQux>.Bar<TBar>.Baz baz)
@@ -569,6 +1295,144 @@ public class FluentGeneratorTests
                         return baz != value;
                     }
 
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value7)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value7)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value8)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value8)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8);
+                    }
+
+                    public static bool IsAny<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value8, params global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz[] values)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (baz == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value1, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value2, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value3, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value4, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value5, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value6, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value7, global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz value8, params global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz[] values)
+                        where T0 : class, new()
+                        where T1 : global::Macaron.FluentEnum.Tests.IQux
+                        where T2 : struct
+                    {
+                        if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (baz == value) return false;
+                        }
+                        return true;
+                    }
+
                     public static bool IsNone<T0, T1, T2>(this global::Macaron.FluentEnum.Tests.Foo<T0, T1>.Bar<T2>.Baz baz)
                         where T0 : class, new()
                         where T1 : global::Macaron.FluentEnum.Tests.IQux
@@ -631,6 +1495,144 @@ public class FluentGeneratorTests
                     return baz != value;
                 }
 
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6, global::Foo<T0, T1>.Bar<T2>.Baz value7)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6, global::Foo<T0, T1>.Bar<T2>.Baz value7)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6, global::Foo<T0, T1>.Bar<T2>.Baz value7, global::Foo<T0, T1>.Bar<T2>.Baz value8)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6, global::Foo<T0, T1>.Bar<T2>.Baz value7, global::Foo<T0, T1>.Bar<T2>.Baz value8)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    return !(baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8);
+                }
+
+                public static bool IsAny<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6, global::Foo<T0, T1>.Bar<T2>.Baz value7, global::Foo<T0, T1>.Bar<T2>.Baz value8, params global::Foo<T0, T1>.Bar<T2>.Baz[] values)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return true;
+                    foreach (var value in values)
+                    {
+                        if (baz == value) return true;
+                    }
+                    return false;
+                }
+
+                public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz, global::Foo<T0, T1>.Bar<T2>.Baz value1, global::Foo<T0, T1>.Bar<T2>.Baz value2, global::Foo<T0, T1>.Bar<T2>.Baz value3, global::Foo<T0, T1>.Bar<T2>.Baz value4, global::Foo<T0, T1>.Bar<T2>.Baz value5, global::Foo<T0, T1>.Bar<T2>.Baz value6, global::Foo<T0, T1>.Bar<T2>.Baz value7, global::Foo<T0, T1>.Bar<T2>.Baz value8, params global::Foo<T0, T1>.Bar<T2>.Baz[] values)
+                    where T0 : class, new()
+                    where T1 : global::IQux
+                    where T2 : struct
+                {
+                    if (baz == value1 || baz == value2 || baz == value3 || baz == value4 || baz == value5 || baz == value6 || baz == value7 || baz == value8) return false;
+                    foreach (var value in values)
+                    {
+                        if (baz == value) return false;
+                    }
+                    return true;
+                }
+
                 public static bool IsNone<T0, T1, T2>(this global::Foo<T0, T1>.Bar<T2>.Baz baz)
                     where T0 : class, new()
                     where T1 : global::IQux
@@ -681,6 +1683,96 @@ public class FluentGeneratorTests
                     public static bool IsNot(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value)
                     {
                         return bar != value;
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2)
+                    {
+                        return bar == value1 || bar == value2;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2)
+                    {
+                        return !(bar == value1 || bar == value2);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8)
+                    {
+                        return bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8)
+                    {
+                        return !(bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8);
+                    }
+
+                    public static bool IsAny(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8, params global::Macaron.FluentEnum.Tests.Foo.Bar[] values)
+                    {
+                        if (bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8) return true;
+                        foreach (var value in values)
+                        {
+                            if (bar == value) return true;
+                        }
+                        return false;
+                    }
+
+                    public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar, global::Macaron.FluentEnum.Tests.Foo.Bar value1, global::Macaron.FluentEnum.Tests.Foo.Bar value2, global::Macaron.FluentEnum.Tests.Foo.Bar value3, global::Macaron.FluentEnum.Tests.Foo.Bar value4, global::Macaron.FluentEnum.Tests.Foo.Bar value5, global::Macaron.FluentEnum.Tests.Foo.Bar value6, global::Macaron.FluentEnum.Tests.Foo.Bar value7, global::Macaron.FluentEnum.Tests.Foo.Bar value8, params global::Macaron.FluentEnum.Tests.Foo.Bar[] values)
+                    {
+                        if (bar == value1 || bar == value2 || bar == value3 || bar == value4 || bar == value5 || bar == value6 || bar == value7 || bar == value8) return false;
+                        foreach (var value in values)
+                        {
+                            if (bar == value) return false;
+                        }
+                        return true;
                     }
 
                     public static bool IsNone(this global::Macaron.FluentEnum.Tests.Foo.Bar bar)

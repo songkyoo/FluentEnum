@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Threading;
 
 namespace Macaron.FluentEnum;
 
@@ -49,6 +48,15 @@ internal static class ExtensionMethodModelFactory
             body: $"return {receiverName} != value;",
             enumTypeModel
         ));
+
+        for (var count = 2; count <= 8; count++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            AddIsSetMethods(methodModels, receiverParameterModel, receiverName, type, enumTypeModel, count);
+        }
+
+        AddIsSetMethods(methodModels, receiverParameterModel, receiverName, type, enumTypeModel, 8, hasParams: true);
 
         foreach (var member in members)
         {
@@ -214,6 +222,43 @@ internal static class ExtensionMethodModelFactory
             Parameters: parameterModels,
             Body: body
         );
+    }
+
+    private static void AddIsSetMethods(
+        ImmutableArray<ExtensionMethodModel>.Builder methodModels,
+        MethodParameterModel receiverParameterModel,
+        string receiverName,
+        string type,
+        EnumTypeModel enumTypeModel,
+        int count,
+        bool hasParams = false
+    )
+    {
+        var parameters = ImmutableArray.CreateBuilder<MethodParameterModel>();
+        parameters.Add(receiverParameterModel);
+
+        for (var i = 1; i <= count; i++)
+        {
+            parameters.Add(new MethodParameterModel(type, $"value{i}"));
+        }
+
+        if (hasParams)
+        {
+            parameters.Add(new MethodParameterModel($"{type}[]", "values", IsParams: true));
+        }
+
+        var comparisons = string.Join(" || ", Enumerable.Range(1, count).Select(i => $"{receiverName} == value{i}"));
+        var anyBody = $"return {comparisons};";
+        var noneBody = $"return !({comparisons});";
+
+        if (hasParams)
+        {
+            anyBody = $"if ({comparisons}) return true;\nforeach (var value in values)\n{{\n    if ({receiverName} == value) return true;\n}}\nreturn false;";
+            noneBody = $"if ({comparisons}) return false;\nforeach (var value in values)\n{{\n    if ({receiverName} == value) return false;\n}}\nreturn true;";
+        }
+
+        methodModels.Add(CreateMethodModel("IsAny", parameters.ToImmutable(), anyBody, enumTypeModel));
+        methodModels.Add(CreateMethodModel("IsNone", parameters.ToImmutable(), noneBody, enumTypeModel));
     }
 
     private static string GetNegatedMemberName(string memberName)

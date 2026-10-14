@@ -3,5 +3,6 @@ namespace Macaron.FluentEnum;
 internal readonly record struct MethodParameterModel(
     string Type,
     string Name,
-    bool IsExtensionReceiver = false
+    bool IsExtensionReceiver = false,
+    bool IsParams = false
 );

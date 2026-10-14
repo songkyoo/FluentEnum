@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Threading;
 
 namespace Macaron.FluentEnum;
 
@@ -27,7 +26,7 @@ internal static class ExtensionMethodRenderer
             var parameters = string.Join(
                 ", ",
                 methodModel.Parameters.Select(static parameterModel =>
-                    $"{(parameterModel.IsExtensionReceiver ? "this " : "")}{parameterModel.Type} {parameterModel.Name}"
+                    $"{(parameterModel.IsExtensionReceiver ? "this " : "")}{(parameterModel.IsParams ? "params " : "")}{parameterModel.Type} {parameterModel.Name}"
                 )
             );
 
@@ -39,7 +38,12 @@ internal static class ExtensionMethodRenderer
             }
 
             lines.Add("{");
-            lines.Add($"{indent}{methodModel.Body}");
+
+            foreach (var bodyLine in methodModel.Body.Split('\n'))
+            {
+                lines.Add($"{indent}{bodyLine}");
+            }
+
             lines.Add("}");
         }
 
